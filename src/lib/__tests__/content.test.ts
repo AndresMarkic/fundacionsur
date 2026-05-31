@@ -1,5 +1,10 @@
 import { describe, it, expect } from "vitest";
-import { buildMenuTree, parseBlock, type MenuRow } from "@/lib/content";
+import {
+  buildMenuTree,
+  matchNoticia,
+  parseBlock,
+  type MenuRow,
+} from "@/lib/content";
 
 describe("buildMenuTree", () => {
   it("anida los hijos por parentId bajo su padre", () => {
@@ -76,5 +81,39 @@ describe("parseBlock", () => {
   it("tolera dataJson vacío o nulo devolviendo objeto vacío", () => {
     const parsed = parseBlock({ id: "3", type: "x", order: 2, visible: true, dataJson: "" });
     expect(parsed.data).toEqual({});
+  });
+});
+
+describe("matchNoticia", () => {
+  const noticia = {
+    title: "Programa de Voluntariado 2026",
+    excerpt: "Convocamos a vecinos de Santa Cruz a sumarse a los equipos.",
+    body: "Durante el año los voluntarios participarán de actividades de **acompañamiento social**.",
+  };
+
+  it("coincide por título sin distinguir mayúsculas/acentos del término", () => {
+    expect(matchNoticia(noticia, "voluntariado")).toBe(true);
+    expect(matchNoticia(noticia, "VOLUNTARIADO")).toBe(true);
+    expect(matchNoticia(noticia, "  Programa ")).toBe(true);
+  });
+
+  it("coincide por excerpt y por body", () => {
+    expect(matchNoticia(noticia, "santa cruz")).toBe(true);
+    expect(matchNoticia(noticia, "acompañamiento")).toBe(true);
+  });
+
+  it("no coincide cuando el término no aparece", () => {
+    expect(matchNoticia(noticia, "presupuesto")).toBe(false);
+  });
+
+  it("una consulta vacía o de solo espacios no coincide", () => {
+    expect(matchNoticia(noticia, "")).toBe(false);
+    expect(matchNoticia(noticia, "   ")).toBe(false);
+  });
+
+  it("tolera campos nulos sin lanzar", () => {
+    const sinCampos = { title: "Hola mundo", excerpt: null, body: null };
+    expect(matchNoticia(sinCampos, "mundo")).toBe(true);
+    expect(matchNoticia(sinCampos, "ausente")).toBe(false);
   });
 });

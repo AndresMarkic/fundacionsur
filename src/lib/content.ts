@@ -86,6 +86,38 @@ export function parseBlock(block: HomeBlockRow): ParsedBlock {
   return { ...rest, data };
 }
 
+/** Subset de una noticia necesario para la búsqueda textual. */
+export type NoticiaMatchable = {
+  title: string;
+  excerpt?: string | null;
+  body?: string | null;
+};
+
+/**
+ * ¿La noticia coincide con el término de búsqueda `q`?
+ *
+ * Búsqueda case-insensitive (y acento-insensitive) sobre title/excerpt/body.
+ * SQLite no soporta `mode:"insensitive"`, así que filtramos en JS: el dataset
+ * es chico. Una consulta vacía (o de solo espacios) nunca coincide.
+ */
+export function matchNoticia(noticia: NoticiaMatchable, q: string): boolean {
+  const term = normalizeText(q);
+  if (!term) return false;
+  const haystack = normalizeText(
+    [noticia.title, noticia.excerpt ?? "", noticia.body ?? ""].join(" "),
+  );
+  return haystack.includes(term);
+}
+
+/** Pasa a minúsculas y elimina acentos/diacríticos para comparar texto. */
+function normalizeText(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
 // ---------------------------------------------------------------------------
 // Lectura desde la base (Server-side)
 // ---------------------------------------------------------------------------
@@ -176,9 +208,60 @@ export async function getNoticiaBySlug(slug: string) {
   return prisma.noticia.findUnique({ where: { slug } });
 }
 
+/** Resultado paginado de un listado. */
+export type Paginated<T> = {
+  items: T[];
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
+/**
+ * Noticias publicadas, orden `date` desc, con paginación simple.
+ * `page` es 1-based; se acota al rango válido [1, totalPages].
+ */
+export async function getAllNoticias(
+  page = 1,
+  pageSize = 9,
+): Promise<Paginated<Awaited<ReturnType<typeof getLatestNoticias>>[number]>> {
+  const where = { status: "published" } as const;
+  const total = await prisma.noticia.count({ where });
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const safePage = Math.min(Math.max(1, Math.trunc(page) || 1), totalPages);
+
+  const items = await prisma.noticia.findMany({
+    where,
+    orderBy: { date: "desc" },
+    skip: (safePage - 1) * pageSize,
+    take: pageSize,
+  });
+
+  return { items, page: safePage, pageSize, total, totalPages };
+}
+
+/**
+ * Busca noticias publicadas que coincidan con `q` (case/acento-insensitive
+ * sobre title/excerpt/body). Trae las publicadas y filtra en JS con
+ * `matchNoticia`. Orden `date` desc.
+ */
+export async function searchNoticias(q: string) {
+  if (!q.trim()) return [];
+  const all = await prisma.noticia.findMany({
+    where: { status: "published" },
+    orderBy: { date: "desc" },
+  });
+  return all.filter((n) => matchNoticia(n, q));
+}
+
 /** Todas las áreas, orden `order` asc. */
 export async function getAreas() {
   return prisma.area.findMany({ orderBy: { order: "asc" } });
+}
+
+/** Un área por slug, o null. */
+export async function getAreaBySlug(slug: string) {
+  return prisma.area.findUnique({ where: { slug } });
 }
 
 /** Últimos recortes de prensa, orden `date` desc. */
@@ -187,6 +270,11 @@ export async function getLatestPrensa(limit = 4) {
     orderBy: { date: "desc" },
     take: limit,
   });
+}
+
+/** Todos los recortes de prensa, orden `date` desc. */
+export async function getAllPrensa() {
+  return prisma.prensaItem.findMany({ orderBy: { date: "desc" } });
 }
 
 /** Todos los informes, orden `date` desc. */
