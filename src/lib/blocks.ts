@@ -63,9 +63,9 @@ export function defaultBlockData(type: string): Record<string, unknown> {
     case "informes":
       return { title: "Informes", intro: "" };
     case "areas":
-      return { title: "Nuestras áreas" };
+      return { title: "Nuestras áreas", intro: "" };
     case "banner":
-      return { image: "", imageMobile: "", link: "", alt: "" };
+      return { image: "", imageMobile: "", link: "", alt: "", buttonLabel: "" };
     case "mision":
       return {
         title: "Quiénes somos",
@@ -85,6 +85,7 @@ export function defaultBlockData(type: string): Record<string, unknown> {
         title: "Sumate a Fundación Sur",
         text: "Suscribite y recibí nuestras novedades.",
         buttonLabel: "Suscribite",
+        href: "/#suscribite",
       };
     default:
       return {};

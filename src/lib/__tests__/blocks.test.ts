@@ -53,20 +53,29 @@ describe("defaultBlockData", () => {
     });
   });
 
-  it("banner trae image/imageMobile/link/alt", () => {
+  it("banner trae image/imageMobile/link/alt/buttonLabel", () => {
     expect(defaultBlockData("banner")).toEqual({
       image: "",
       imageMobile: "",
       link: "",
       alt: "",
+      buttonLabel: "",
     });
   });
 
-  it("cta trae title/text/buttonLabel", () => {
+  it("areas trae title e intro", () => {
+    expect(defaultBlockData("areas")).toEqual({
+      title: "Nuestras áreas",
+      intro: "",
+    });
+  });
+
+  it("cta trae title/text/buttonLabel/href", () => {
     expect(defaultBlockData("cta")).toEqual({
       title: "Sumate a Fundación Sur",
       text: "Suscribite y recibí nuestras novedades.",
       buttonLabel: "Suscribite",
+      href: "/#suscribite",
     });
   });
 
@@ -80,4 +89,51 @@ describe("defaultBlockData", () => {
       expect(d).toBeTypeOf("object");
     }
   });
+});
+
+/**
+ * Contrato editor↔componente: `defaultBlockData(type)` debe incluir TODAS las
+ * claves que el componente de `src/components/blocks/{Type}Block.tsx` lee de
+ * `data`. Si un componente empieza a leer una clave nueva, agregarla acá y en
+ * `defaultBlockData` (y en BlockForm + buildBlockData).
+ *
+ * Las claves anidadas se expresan con punto (p. ej. `cta.label`) y se verifican
+ * navegando el objeto por default.
+ */
+describe("defaultBlockData cubre las claves leídas por cada componente", () => {
+  // Claves que cada componente lee de `data` (auditadas en los *Block.tsx).
+  const READ_KEYS: Record<string, string[]> = {
+    hero: ["image", "link", "title", "subtitle"],
+    noticias: ["limit", "title"],
+    informes: ["title", "intro"],
+    areas: ["title", "intro"],
+    banner: ["image", "imageMobile", "link", "alt", "buttonLabel"],
+    mision: ["title", "text", "image", "cta.label", "cta.href"],
+    prensa: ["title", "limit"],
+    contadores: ["title", "items"],
+    cta: ["title", "text", "buttonLabel", "href"],
+  };
+
+  const hasPath = (obj: Record<string, unknown>, path: string): boolean => {
+    const parts = path.split(".");
+    let cur: unknown = obj;
+    for (const p of parts) {
+      if (!cur || typeof cur !== "object" || !(p in (cur as object))) {
+        return false;
+      }
+      cur = (cur as Record<string, unknown>)[p];
+    }
+    return true;
+  };
+
+  for (const type of BLOCK_TYPES) {
+    it(`${type}: incluye todas las claves leídas`, () => {
+      const d = defaultBlockData(type);
+      for (const key of READ_KEYS[type]) {
+        expect(hasPath(d, key), `falta "${key}" en defaultBlockData("${type}")`).toBe(
+          true,
+        );
+      }
+    });
+  }
 });

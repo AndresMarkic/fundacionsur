@@ -102,7 +102,16 @@ function Fields({ type, data }: { type: string; data: Data }) {
       );
     case "areas":
       return (
-        <FormField name="title" label="Título" defaultValue={s(data, "title")} />
+        <>
+          <FormField name="title" label="Título" defaultValue={s(data, "title")} />
+          <FormField
+            name="intro"
+            label="Introducción"
+            variant="textarea"
+            rows={3}
+            defaultValue={s(data, "intro")}
+          />
+        </>
       );
     case "banner":
       return (
@@ -124,6 +133,12 @@ function Fields({ type, data }: { type: string; data: Data }) {
             name="alt"
             label="Texto alternativo (alt)"
             defaultValue={s(data, "alt")}
+          />
+          <FormField
+            name="buttonLabel"
+            label="Texto del botón (opcional)"
+            defaultValue={s(data, "buttonLabel")}
+            hint="Si lo completás y hay enlace, se muestra un botón sobre el banner."
           />
         </>
       );
@@ -175,6 +190,12 @@ function Fields({ type, data }: { type: string; data: Data }) {
             name="buttonLabel"
             label="Texto del botón"
             defaultValue={s(data, "buttonLabel")}
+          />
+          <FormField
+            name="href"
+            label="Enlace del botón"
+            defaultValue={s(data, "href", "/#suscribite")}
+            hint="A dónde lleva el botón (p. ej. /#suscribite)."
           />
         </>
       );

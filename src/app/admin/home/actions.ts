@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { siblingSwap } from "@/lib/content";
 import { defaultBlockData, isBlockType } from "@/lib/blocks";
+import { isUploadPath } from "@/lib/admin";
 
 async function requireAuth() {
   const session = await auth();
@@ -27,6 +28,16 @@ const numOr = (formData: FormData, k: string, fallback: number) => {
 };
 
 /**
+ * Lee un campo de imagen del UploadField y solo lo conserva si es un path de
+ * upload local válido (`/uploads/...`). Si no, devuelve "" para no persistir
+ * URLs externas.
+ */
+const uploadPathOr = (formData: FormData, k: string) => {
+  const v = trimmed(formData, k);
+  return isUploadPath(v, { required: false }) ? v : "";
+};
+
+/**
  * Arma el objeto de datos del bloque a partir del form, según su `type`.
  * Las claves coinciden con las que leen los componentes en
  * `src/components/blocks/`. PURA respecto a la BD (solo lee FormData).
@@ -38,7 +49,7 @@ function buildBlockData(
   switch (type) {
     case "hero":
       return {
-        image: trimmed(formData, "image"),
+        image: uploadPathOr(formData, "image"),
         title: str(formData, "title"),
         subtitle: str(formData, "subtitle"),
         link: trimmed(formData, "link") || "/",
@@ -54,19 +65,23 @@ function buildBlockData(
         intro: str(formData, "intro"),
       };
     case "areas":
-      return { title: str(formData, "title") };
+      return {
+        title: str(formData, "title"),
+        intro: str(formData, "intro"),
+      };
     case "banner":
       return {
-        image: trimmed(formData, "image"),
-        imageMobile: trimmed(formData, "imageMobile"),
+        image: uploadPathOr(formData, "image"),
+        imageMobile: uploadPathOr(formData, "imageMobile"),
         link: trimmed(formData, "link"),
         alt: str(formData, "alt"),
+        buttonLabel: str(formData, "buttonLabel"),
       };
     case "mision":
       return {
         title: str(formData, "title"),
         text: str(formData, "text"),
-        image: trimmed(formData, "image"),
+        image: uploadPathOr(formData, "image"),
         cta: {
           label: str(formData, "ctaLabel"),
           href: trimmed(formData, "ctaHref"),
@@ -98,6 +113,7 @@ function buildBlockData(
         title: str(formData, "title"),
         text: str(formData, "text"),
         buttonLabel: str(formData, "buttonLabel"),
+        href: trimmed(formData, "href") || "/#suscribite",
       };
     default:
       return {};
