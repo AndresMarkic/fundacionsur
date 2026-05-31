@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Noticia {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  date       DateTime @default(now())
+  coverImage String?
+  excerpt    String?
+  body       String
+  status     String   @default("draft")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model PrensaItem {
+  id          String   @id @default(cuid())
+  title       String
+  mediaOutlet String
+  date        DateTime @default(now())
+  externalUrl String
+  thumbnail   String?
+  createdAt   DateTime @default(now())
+}
+
+model Informe {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  coverImage  String?
+  fileUrl     String
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+}
+
+model Area {
+  id               String  @id @default(cuid())
+  name             String
+  slug             String  @unique
+  icon             String?
+  shortDescription String
+  pageContent      String?
+  order            Int     @default(0)
+}
+
+model Autoridad {
+  id    String  @id @default(cuid())
+  name  String
+  role  String
+  photo String?
+  bio   String?
+  order Int     @default(0)
+}
+
+model Sede {
+  id      String  @id @default(cuid())
+  name    String
+  address String?
+  phone   String?
+  email   String?
+  mapUrl  String?
+  order   Int     @default(0)
+}
+
+model HomeBlock {
+  id       String  @id @default(cuid())
+  type     String
+  order    Int     @default(0)
+  visible  Boolean @default(true)
+  dataJson String  @default("{}")
+}
+
+model MenuItem {
+  id       String     @id @default(cuid())
+  label    String
+  href     String
+  parentId String?
+  parent   MenuItem?  @relation("MenuChildren", fields: [parentId], references: [id], onDelete: SetNull)
+  children MenuItem[] @relation("MenuChildren")
+  order    Int        @default(0)
+  visible  Boolean    @default(true)
+  isCTA    Boolean    @default(false)
+}
+
+model Suscriptor {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String  @id @default("singleton")
+  address      String?
+  email        String?
+  phone        String?
+  social       String  @default("{}")
+  footerText   String?
+  countersJson String  @default("[]")
+}
+
+model AdminUser {
+  id           String  @id @default(cuid())
+  email        String  @unique
+  passwordHash String
+  name         String?
+}
