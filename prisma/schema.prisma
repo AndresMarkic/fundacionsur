@@ -107,6 +107,7 @@ model SiteSettings {
   social       String  @default("{}")
   footerText   String?
   countersJson String  @default("[]")
+  themeJson    String  @default("{}")
 }
 
 model AdminUser {
