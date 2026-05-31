@@ -5,7 +5,7 @@ type Tone = "light" | "fondo" | "dark";
 const toneClasses: Record<Tone, string> = {
   light: "bg-white text-austral",
   fondo: "bg-fondo text-austral",
-  dark: "bg-austral text-white",
+  dark: "bg-austral text-on-austral",
 };
 
 /**
@@ -68,7 +68,7 @@ export function SectionHeading({
       )}
       <h2
         className={`mt-4 font-display text-4xl leading-[1.08] sm:text-5xl ${
-          onDark ? "text-white" : "text-austral"
+          onDark ? "text-on-austral" : "text-austral"
         }`}
       >
         {title}
@@ -76,7 +76,7 @@ export function SectionHeading({
       {intro && (
         <p
           className={`mt-5 text-lg leading-relaxed ${
-            onDark ? "text-white/70" : "text-austral/70"
+            onDark ? "text-on-austral/70" : "text-austral/70"
           }`}
         >
           {intro}

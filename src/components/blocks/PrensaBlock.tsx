@@ -16,12 +16,12 @@ export async function PrensaBlock({ data }: BlockProps) {
     <Section tone="dark">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <SectionHeading eyebrow="Repercusión" title={title} onDark />
-        <Button href="/prensa" variant="link" className="shrink-0 !text-celeste hover:!text-white">
+        <Button href="/prensa" variant="link" className="shrink-0 !text-celeste hover:!text-on-austral">
           Ver todo
         </Button>
       </div>
 
-      <ul className="mt-12 divide-y divide-white/10 border-y border-white/10">
+      <ul className="mt-12 divide-y divide-on-austral/10 border-y border-on-austral/10">
         {items.map((p) => (
           <li key={p.id}>
             <a
@@ -32,15 +32,15 @@ export async function PrensaBlock({ data }: BlockProps) {
             >
               <div className="flex shrink-0 items-center gap-3 text-xs font-medium uppercase tracking-[0.12em] text-celeste sm:w-64">
                 <span>{p.mediaOutlet}</span>
-                <span aria-hidden="true" className="text-white/30">·</span>
-                <span className="text-white/45">{formatDate(p.date)}</span>
+                <span aria-hidden="true" className="text-on-austral/30">·</span>
+                <span className="text-on-austral/45">{formatDate(p.date)}</span>
               </div>
-              <p className="flex-1 font-display text-xl leading-snug text-white/90 transition-colors group-hover/press:text-celeste">
+              <p className="flex-1 font-display text-xl leading-snug text-on-austral/90 transition-colors group-hover/press:text-celeste">
                 {p.title}
               </p>
               <span
                 aria-hidden="true"
-                className="hidden shrink-0 text-white/40 transition-all duration-200 group-hover/press:translate-x-1 group-hover/press:text-celeste sm:inline"
+                className="hidden shrink-0 text-on-austral/40 transition-all duration-200 group-hover/press:translate-x-1 group-hover/press:text-celeste sm:inline"
               >
                 ↗
               </span>

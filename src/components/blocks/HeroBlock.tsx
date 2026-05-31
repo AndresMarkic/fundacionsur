@@ -7,9 +7,9 @@ function SouthernCross() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0">
       <span className="absolute left-[14%] top-[22%] text-celeste/70">✦</span>
-      <span className="absolute left-[24%] top-[58%] text-sm text-white/30">✦</span>
+      <span className="absolute left-[24%] top-[58%] text-sm text-on-austral/30">✦</span>
       <span className="absolute right-[28%] top-[18%] text-celeste/40">✦</span>
-      <span className="absolute right-[16%] top-[46%] text-lg text-white/25">✦</span>
+      <span className="absolute right-[16%] top-[46%] text-lg text-on-austral/25">✦</span>
       <span className="absolute bottom-[20%] right-[34%] text-sm text-celeste/30">✦</span>
     </div>
   );
@@ -48,7 +48,7 @@ export function HeroBlock({ data }: BlockProps) {
   );
 
   return (
-    <section className="relative overflow-hidden bg-austral text-white">
+    <section className="relative overflow-hidden bg-austral text-on-austral">
       {/* Fondo */}
       {image ? (
         <>
@@ -97,7 +97,7 @@ export function HeroBlock({ data }: BlockProps) {
           )}
         </h1>
 
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/80">
+        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-on-austral/80">
           {subtitle}
         </p>
 

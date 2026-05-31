@@ -47,7 +47,7 @@ function SocialIcon({ href, label, path }: { href: string; label: string; path: 
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-200 hover:-translate-y-0.5 hover:border-celeste hover:bg-celeste hover:text-austral"
+      className="flex h-10 w-10 items-center justify-center rounded-full border border-on-austral/15 text-on-austral/70 transition-all duration-200 hover:-translate-y-0.5 hover:border-celeste hover:bg-celeste hover:text-on-celeste"
     >
       <svg
         viewBox="0 0 24 24"
@@ -80,7 +80,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
   const address = settings.address?.trim();
 
   return (
-    <footer className="relative mt-auto overflow-hidden bg-austral text-white">
+    <footer className="relative mt-auto overflow-hidden bg-austral text-on-austral">
       {/* Línea de horizonte austral, eco de la curva del isotipo */}
       <div
         aria-hidden="true"
@@ -101,7 +101,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
                 className="h-14 w-auto object-contain object-left"
               />
             </Link>
-            <p className="mt-5 text-sm leading-relaxed text-white/60">
+            <p className="mt-5 text-sm leading-relaxed text-on-austral/60">
               {settings.footerText ||
                 "Organización sin fines de lucro de la Patagonia austral, comprometida con el desarrollo social y las comunidades del sur."}
             </p>
@@ -125,7 +125,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/70 transition-colors hover:text-white"
+                      className="text-sm text-on-austral/70 transition-colors hover:text-on-austral"
                     >
                       {link.label}
                     </Link>
@@ -146,7 +146,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-white/70 transition-colors hover:text-white"
+                      className="text-sm text-on-austral/70 transition-colors hover:text-on-austral"
                     >
                       {link.label}
                     </Link>
@@ -161,7 +161,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
             <h3 className="font-body text-xs font-semibold uppercase tracking-[0.14em] text-celeste">
               Contacto
             </h3>
-            <address className="mt-5 space-y-3 text-sm not-italic text-white/70">
+            <address className="mt-5 space-y-3 text-sm not-italic text-on-austral/70">
               {address && <p className="leading-relaxed">{address}</p>}
               {email && (
                 <p>
@@ -187,7 +187,7 @@ export function Footer({ settings, menu = [] }: FooterProps) {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-8 text-xs text-white/45 sm:flex-row sm:items-center">
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-on-austral/10 pt-8 text-xs text-on-austral/45 sm:flex-row sm:items-center">
           <p>© {CURRENT_YEAR} Fundación Sur · Santa Cruz</p>
           <p className="flex items-center gap-2">
             <span aria-hidden="true" className="text-celeste/70">

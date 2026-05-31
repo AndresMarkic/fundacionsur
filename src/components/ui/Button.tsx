@@ -31,12 +31,12 @@ const base =
 const variants: Record<Variant, string> = {
   // Botón primario — Verde Glaciar, sube ligeramente y profundiza al hover.
   solid:
-    "bg-glaciar text-white rounded-full px-6 py-3 text-sm shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset,0_8px_20px_-12px_rgba(42,127,138,0.7)] hover:bg-austral hover:shadow-[0_10px_28px_-14px_rgba(26,43,60,0.8)] hover:-translate-y-0.5 active:translate-y-0",
+    "bg-glaciar text-on-glaciar rounded-full px-6 py-3 text-sm shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset,0_8px_20px_-12px_rgba(42,127,138,0.7)] hover:bg-austral hover:text-on-austral hover:shadow-[0_10px_28px_-14px_rgba(26,43,60,0.8)] hover:-translate-y-0.5 active:translate-y-0",
   // Link de acción — texto glaciar/celeste con flecha que avanza al hover.
   link: "text-glaciar text-sm font-semibold hover:text-celeste",
   // Outline — borde austral discreto que se rellena al hover.
   outline:
-    "border border-austral/25 text-austral rounded-full px-6 py-3 text-sm hover:border-austral hover:bg-austral hover:text-white hover:-translate-y-0.5 active:translate-y-0",
+    "border border-austral/25 text-austral rounded-full px-6 py-3 text-sm hover:border-austral hover:bg-austral hover:text-on-austral hover:-translate-y-0.5 active:translate-y-0",
 };
 
 function content(variant: Variant, children: ReactNode) {

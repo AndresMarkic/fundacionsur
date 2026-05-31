@@ -22,7 +22,7 @@ export const DEFAULT_FONT_PAIR: FontPair = "editorial";
 export type Theme = { colors: Record<ColorKey, string>; fontPair: FontPair };
 
 export function parseTheme(raw: string | null | undefined): Theme {
-  const colors = { ...DEFAULT_COLORS };
+  const colors: Record<ColorKey, string> = { ...DEFAULT_COLORS };
   let fontPair: FontPair = DEFAULT_FONT_PAIR;
   try {
     const t = raw ? JSON.parse(raw) : {};

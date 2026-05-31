@@ -14,7 +14,7 @@ export function CtaBlock({ data }: BlockProps) {
 
   return (
     <section id="suscribite" className="px-5 py-16 sm:px-8 lg:py-20">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-glaciar px-6 py-14 text-white sm:px-12 lg:py-20">
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl bg-glaciar px-6 py-14 text-on-glaciar sm:px-12 lg:py-20">
         {/* Atmósfera glaciar + estrellas */}
         <div
           aria-hidden="true"
@@ -28,18 +28,18 @@ export function CtaBlock({ data }: BlockProps) {
         </span>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute left-[8%] bottom-[28%] text-sm text-white/30"
+          className="pointer-events-none absolute left-[8%] bottom-[28%] text-sm text-on-glaciar/30"
         >
           ✦
         </span>
 
         <div className="relative flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="font-display text-3xl leading-tight text-white sm:text-4xl lg:text-[2.75rem]">
+            <h2 className="font-display text-3xl leading-tight text-on-glaciar sm:text-4xl lg:text-[2.75rem]">
               {title}
             </h2>
             {text && (
-              <p className="mt-4 text-lg leading-relaxed text-white/85">{text}</p>
+              <p className="mt-4 text-lg leading-relaxed text-on-glaciar/85">{text}</p>
             )}
           </div>
           <div className="w-full shrink-0 lg:w-auto">
