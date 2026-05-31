@@ -20,7 +20,7 @@ function SearchForm({ q }: { q: string }) {
       <label htmlFor="q" className="sr-only">
         Buscar noticias
       </label>
-      <div className="flex items-stretch gap-2 rounded-full border border-white/20 bg-white/[0.06] p-1.5 backdrop-blur-sm focus-within:border-celeste/70">
+      <div className="flex items-stretch gap-2 rounded-full border border-on-austral/20 bg-on-austral/[0.06] p-1.5 backdrop-blur-sm focus-within:border-celeste/70">
         <input
           id="q"
           name="q"
@@ -28,11 +28,11 @@ function SearchForm({ q }: { q: string }) {
           defaultValue={q}
           placeholder="Buscá una noticia…"
           autoComplete="off"
-          className="min-w-0 flex-1 bg-transparent px-4 text-base text-white placeholder:text-white/45 focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent px-4 text-base text-on-austral placeholder:text-on-austral/45 focus:outline-none"
         />
         <button
           type="submit"
-          className="shrink-0 rounded-full bg-celeste px-6 py-2.5 text-sm font-semibold text-austral transition-colors hover:bg-white"
+          className="shrink-0 rounded-full bg-celeste px-6 py-2.5 text-sm font-semibold text-on-celeste transition-colors hover:bg-white"
         >
           Buscar
         </button>

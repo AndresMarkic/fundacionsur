@@ -53,14 +53,14 @@ export default async function AreaDetailPage({
 
   return (
     <>
-      <section className="relative overflow-hidden bg-austral text-white">
+      <section className="relative overflow-hidden bg-austral text-on-austral">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(110%_80%_at_85%_-20%,rgba(74,171,184,0.22),transparent_55%),radial-gradient(80%_70%_at_-10%_120%,rgba(42,127,138,0.16),transparent_60%)]"
         />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <span className="absolute left-[14%] top-[30%] text-celeste/60">✦</span>
-          <span className="absolute right-[20%] top-[26%] text-sm text-white/25">
+          <span className="absolute right-[20%] top-[26%] text-sm text-on-austral/25">
             ✦
           </span>
           <span className="absolute right-[34%] bottom-[34%] text-xs text-celeste/30">
@@ -71,13 +71,13 @@ export default async function AreaDetailPage({
         <div className="relative mx-auto max-w-7xl px-5 pb-16 pt-20 sm:px-8 sm:pb-20 sm:pt-28">
           <Link
             href="/#areas"
-            className="text-xs font-medium uppercase tracking-[0.22em] text-celeste transition-colors hover:text-white"
+            className="text-xs font-medium uppercase tracking-[0.22em] text-celeste transition-colors hover:text-on-austral"
           >
             Nuestras áreas
           </Link>
 
           <div className="mt-7 flex items-start gap-5">
-            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-white ring-1 ring-white/15 backdrop-blur-sm">
+            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-on-austral/10 text-on-austral ring-1 ring-on-austral/15 backdrop-blur-sm">
               <span
                 aria-hidden="true"
                 className="absolute -right-1.5 -top-1.5 text-sm text-celeste"
@@ -98,7 +98,7 @@ export default async function AreaDetailPage({
             </h1>
           </div>
 
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-on-austral/75">
             {area.shortDescription}
           </p>
         </div>

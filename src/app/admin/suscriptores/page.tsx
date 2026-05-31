@@ -50,7 +50,7 @@ export default async function SuscriptoresAdminPage() {
         {rows.length > 0 ? (
           <a
             href="/api/suscriptores/export"
-            className="inline-flex items-center gap-2 rounded-full border border-glaciar px-5 py-2.5 text-sm font-medium text-glaciar transition-colors hover:bg-glaciar hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-glaciar px-5 py-2.5 text-sm font-medium text-glaciar transition-colors hover:bg-glaciar hover:text-on-glaciar"
           >
             <span aria-hidden="true">↓</span>
             Exportar CSV

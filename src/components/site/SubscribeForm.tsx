@@ -50,7 +50,7 @@ export function SubscribeForm({ buttonLabel = "Suscribite" }: { buttonLabel?: st
   }
 
   const inputClasses =
-    "w-full rounded-full border border-white/30 bg-white/95 px-5 py-3 text-sm text-austral outline-none transition-colors placeholder:text-piedra focus:border-white focus:ring-2 focus:ring-white/40";
+    "w-full rounded-full border border-on-glaciar/30 bg-white/95 px-5 py-3 text-sm text-austral outline-none transition-colors placeholder:text-piedra focus:border-on-glaciar focus:ring-2 focus:ring-on-glaciar/40";
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md space-y-3" noValidate>
@@ -96,7 +96,7 @@ export function SubscribeForm({ buttonLabel = "Suscribite" }: { buttonLabel?: st
       <button
         type="submit"
         disabled={status === "loading"}
-        className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-glaciar transition-all duration-200 hover:bg-austral hover:text-white disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-glaciar transition-all duration-200 hover:bg-austral hover:text-on-austral disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
         {status === "loading" ? "Enviando…" : buttonLabel}
       </button>
@@ -105,7 +105,7 @@ export function SubscribeForm({ buttonLabel = "Suscribite" }: { buttonLabel?: st
         aria-live="polite"
         role="status"
         className={`min-h-[1.25rem] text-sm ${
-          status === "error" ? "text-red-100" : "text-white"
+          status === "error" ? "text-red-100" : "text-on-glaciar"
         }`}
       >
         {message}

@@ -135,8 +135,8 @@ function PressBrandThumb({ mediaOutlet }: { mediaOutlet: string }) {
       <span className="absolute left-[16%] top-[24%] text-sm text-celeste/60">
         ✦
       </span>
-      <span className="absolute right-[20%] bottom-[26%] text-white/25">✦</span>
-      <span className="relative font-display text-lg italic text-white/85">
+      <span className="absolute right-[20%] bottom-[26%] text-on-austral/25">✦</span>
+      <span className="relative font-display text-lg italic text-on-austral/85">
         {mediaOutlet}
       </span>
     </div>

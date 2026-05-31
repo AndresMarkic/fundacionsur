@@ -88,7 +88,7 @@ function Pagination({
   totalPages: number;
 }) {
   const linkBase =
-    "inline-flex items-center gap-2 rounded-full border border-austral/20 px-5 py-2.5 text-sm font-semibold text-austral transition-all hover:border-austral hover:bg-austral hover:text-white";
+    "inline-flex items-center gap-2 rounded-full border border-austral/20 px-5 py-2.5 text-sm font-semibold text-austral transition-all hover:border-austral hover:bg-austral hover:text-on-austral";
   const disabled =
     "pointer-events-none cursor-default border-piedra/20 text-piedra/50";
 

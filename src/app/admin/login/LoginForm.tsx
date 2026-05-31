@@ -62,7 +62,7 @@ export function LoginForm({ action }: { action: Action }) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex w-full items-center justify-center rounded-full bg-glaciar px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-austral disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center rounded-full bg-glaciar px-6 py-3 text-sm font-medium text-on-glaciar transition-all duration-200 hover:bg-austral hover:text-on-austral disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? "Ingresando…" : "Ingresar"}
       </button>

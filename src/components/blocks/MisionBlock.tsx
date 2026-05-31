@@ -15,15 +15,15 @@ function BrandPanel() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_30%_0%,rgba(74,171,184,0.3),transparent_55%),radial-gradient(80%_60%_at_100%_100%,rgba(196,149,106,0.18),transparent_60%)]" />
       {/* Cruz del Sur estilizada */}
       <span className="absolute left-[28%] top-[22%] text-2xl text-celeste/80">✦</span>
-      <span className="absolute left-[52%] top-[34%] text-base text-white/40">✦</span>
+      <span className="absolute left-[52%] top-[34%] text-base text-on-austral/40">✦</span>
       <span className="absolute left-[38%] top-[50%] text-lg text-celeste/50">✦</span>
-      <span className="absolute left-[60%] top-[58%] text-sm text-white/30">✦</span>
+      <span className="absolute left-[60%] top-[58%] text-sm text-on-austral/30">✦</span>
       <span className="absolute left-[44%] top-[70%] text-xl text-celeste/40">✦</span>
       {/* Horizonte inferior */}
       <svg
         viewBox="0 0 400 80"
         preserveAspectRatio="none"
-        className="absolute inset-x-0 bottom-0 block h-20 w-full text-white/10"
+        className="absolute inset-x-0 bottom-0 block h-20 w-full text-on-austral/10"
       >
         <path
           d="M0 80 L0 40 C 100 16, 240 16, 320 34 C 360 42, 384 42, 400 32 L400 80 Z"

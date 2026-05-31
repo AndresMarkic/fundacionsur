@@ -19,7 +19,7 @@ export function AreaCard({ area }: { area: AreaData }) {
   return (
     <article className="group/area relative flex h-full flex-col overflow-hidden rounded-2xl border border-piedra/20 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-celeste/40 hover:shadow-[0_24px_50px_-30px_rgba(26,43,60,0.45)]">
       {/* Sello: ícono o inicial con eco de la Cruz del Sur */}
-      <div className="relative flex h-14 w-14 items-center justify-center rounded-xl bg-austral text-white transition-colors duration-300 group-hover/area:bg-glaciar">
+      <div className="relative flex h-14 w-14 items-center justify-center rounded-xl bg-austral text-on-austral transition-colors duration-300 group-hover/area:bg-glaciar">
         <span
           aria-hidden="true"
           className="absolute -right-1 -top-1 text-xs text-celeste"

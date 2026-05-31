@@ -22,7 +22,7 @@ export function SubmitButton({
       disabled={pending}
       className={
         className ||
-        "inline-flex items-center justify-center rounded-full bg-glaciar px-6 py-3 text-sm font-medium text-white transition-all duration-200 hover:bg-austral disabled:cursor-not-allowed disabled:opacity-60"
+        "inline-flex items-center justify-center rounded-full bg-glaciar px-6 py-3 text-sm font-medium text-on-glaciar transition-all duration-200 hover:bg-austral hover:text-on-austral disabled:cursor-not-allowed disabled:opacity-60"
       }
     >
       {pending ? pendingLabel : children}

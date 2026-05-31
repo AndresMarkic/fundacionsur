@@ -11,7 +11,7 @@ function AddButton() {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex items-center gap-2 rounded-full bg-glaciar px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-austral disabled:opacity-60"
+      className="inline-flex items-center gap-2 rounded-full bg-glaciar px-5 py-2.5 text-sm font-medium text-on-glaciar transition-colors hover:bg-austral hover:text-on-austral disabled:opacity-60"
     >
       <span aria-hidden="true">+</span>
       {pending ? "Agregando…" : "Agregar bloque"}

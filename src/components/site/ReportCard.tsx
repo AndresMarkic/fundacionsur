@@ -19,20 +19,20 @@ function BrandCover() {
       {/* Resplandor glaciar + estrellas, eco del hero */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_75%_-10%,rgba(74,171,184,0.28),transparent_55%)]" />
       <span className="absolute left-[18%] top-[26%] text-celeste/60 text-sm">✦</span>
-      <span className="absolute right-[22%] top-[20%] text-white/25">✦</span>
+      <span className="absolute right-[22%] top-[20%] text-on-austral/25">✦</span>
       <span className="absolute right-[34%] top-[52%] text-celeste/30 text-xs">✦</span>
       {/* Curva de horizonte */}
       <svg
         viewBox="0 0 400 60"
         preserveAspectRatio="none"
-        className="relative block h-10 w-full text-white/10"
+        className="relative block h-10 w-full text-on-austral/10"
       >
         <path
           d="M0 60 L0 34 C 90 12, 200 12, 280 28 C 340 40, 380 40, 400 26 L400 60 Z"
           fill="currentColor"
         />
       </svg>
-      <span className="absolute left-5 top-5 font-display text-lg text-white/80">
+      <span className="absolute left-5 top-5 font-display text-lg text-on-austral/80">
         Informe
       </span>
     </div>

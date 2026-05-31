@@ -26,8 +26,8 @@ export function AdminSidebar({ onSignOut }: { onSignOut: () => Promise<void> }) 
   const pathname = usePathname();
 
   return (
-    <aside className="flex w-60 shrink-0 flex-col border-r border-piedra/20 bg-austral text-white">
-      <div className="flex items-center gap-3 border-b border-white/10 px-5 py-5">
+    <aside className="flex w-60 shrink-0 flex-col border-r border-piedra/20 bg-austral text-on-austral">
+      <div className="flex items-center gap-3 border-b border-on-austral/10 px-5 py-5">
         <Image
           src="/brand/isotipo.png"
           alt="Fundación Sur"
@@ -37,7 +37,7 @@ export function AdminSidebar({ onSignOut }: { onSignOut: () => Promise<void> }) 
         />
         <div className="leading-tight">
           <div className="font-display text-base">Fundación Sur</div>
-          <div className="text-xs text-white/60">Panel</div>
+          <div className="text-xs text-on-austral/60">Panel</div>
         </div>
       </div>
 
@@ -55,8 +55,8 @@ export function AdminSidebar({ onSignOut }: { onSignOut: () => Promise<void> }) 
               className={[
                 "block rounded-lg px-3 py-2 text-sm transition-colors",
                 active
-                  ? "bg-glaciar text-white"
-                  : "text-white/75 hover:bg-white/10 hover:text-white",
+                  ? "bg-glaciar text-on-glaciar"
+                  : "text-on-austral/75 hover:bg-on-austral/10 hover:text-on-austral",
               ].join(" ")}
             >
               {item.label}
@@ -65,11 +65,11 @@ export function AdminSidebar({ onSignOut }: { onSignOut: () => Promise<void> }) 
         })}
       </nav>
 
-      <div className="border-t border-white/10 p-3">
+      <div className="border-t border-on-austral/10 p-3">
         <form action={onSignOut}>
           <button
             type="submit"
-            className="w-full rounded-lg px-3 py-2 text-left text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+            className="w-full rounded-lg px-3 py-2 text-left text-sm text-on-austral/75 transition-colors hover:bg-on-austral/10 hover:text-on-austral"
           >
             Cerrar sesión
           </button>

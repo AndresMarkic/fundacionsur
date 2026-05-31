@@ -142,7 +142,7 @@ export default async function QuienesSomosPage() {
                         <span className="absolute right-[18%] top-[16%] text-celeste/50">
                           ✦
                         </span>
-                        <span className="font-display text-6xl font-semibold text-white/85">
+                        <span className="font-display text-6xl font-semibold text-on-austral/85">
                           {initial}
                         </span>
                       </div>
@@ -174,12 +174,12 @@ export default async function QuienesSomosPage() {
             {sedes.map((s) => (
               <li
                 key={s.id}
-                className="rounded-2xl border border-white/12 bg-white/[0.04] p-7"
+                className="rounded-2xl border border-on-austral/12 bg-on-austral/[0.04] p-7"
               >
-                <h3 className="font-display text-2xl leading-tight text-white">
+                <h3 className="font-display text-2xl leading-tight text-on-austral">
                   {s.name}
                 </h3>
-                <dl className="mt-4 space-y-2 text-sm leading-relaxed text-white/70">
+                <dl className="mt-4 space-y-2 text-sm leading-relaxed text-on-austral/70">
                   {s.address?.trim() && (
                     <div className="flex gap-2.5">
                       <dt className="shrink-0 text-celeste">Dirección</dt>
@@ -218,7 +218,7 @@ export default async function QuienesSomosPage() {
                     href={s.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-celeste transition-colors hover:text-white"
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-celeste transition-colors hover:text-on-austral"
                   >
                     Ver en el mapa
                     <span aria-hidden="true">↗</span>

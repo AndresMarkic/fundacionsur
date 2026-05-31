@@ -18,14 +18,14 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden bg-austral text-white">
+    <section className="relative overflow-hidden bg-austral text-on-austral">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(110%_80%_at_85%_-20%,rgba(74,171,184,0.22),transparent_55%),radial-gradient(80%_70%_at_-10%_120%,rgba(42,127,138,0.16),transparent_60%)]"
       />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <span className="absolute left-[12%] top-[28%] text-celeste/60">✦</span>
-        <span className="absolute right-[18%] top-[24%] text-sm text-white/25">
+        <span className="absolute right-[18%] top-[24%] text-sm text-on-austral/25">
           ✦
         </span>
         <span className="absolute right-[30%] bottom-[34%] text-celeste/30 text-xs">
@@ -44,7 +44,7 @@ export function PageHero({
           {title}
         </h1>
         {intro && (
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/70">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-on-austral/70">
             {intro}
           </p>
         )}

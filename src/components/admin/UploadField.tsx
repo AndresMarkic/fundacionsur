@@ -120,7 +120,7 @@ export function UploadField({
             accept={acceptAttr}
             onChange={handleChange}
             disabled={uploading}
-            className="block w-full text-sm text-austral file:mr-3 file:rounded-full file:border-0 file:bg-glaciar file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-austral disabled:opacity-60"
+            className="block w-full text-sm text-austral file:mr-3 file:rounded-full file:border-0 file:bg-glaciar file:px-4 file:py-2 file:text-sm file:font-medium file:text-on-glaciar hover:file:bg-austral hover:file:text-on-austral disabled:opacity-60"
           />
         )}
       </div>
