@@ -9,6 +9,13 @@
   --color-estepa: #c4956a; /* complementario — detalles cálidos */
   --color-fondo: #f2f4f6; /* gris claro de fondo */
 
+  /* Color de texto sobre cada superficie de marca (contraste automático).
+     Defaults = look actual; el layout los recalcula según el tema guardado. */
+  --color-on-austral: #ffffff;
+  --color-on-glaciar: #ffffff;
+  --color-on-celeste: #0e1a26;
+  --color-on-estepa: #0e1a26;
+
   /* Variantes tonales útiles para fondos sutiles */
   --color-austral-900: #16242f;
   --color-glaciar-50: #ecf5f6;
