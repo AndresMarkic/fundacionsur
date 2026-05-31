@@ -103,8 +103,8 @@ export default async function MenuAdminPage() {
           No hay ítems en el menú todavía.
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-piedra/15 bg-white">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-2xl border border-piedra/15 bg-white">
+          <table className="w-full min-w-[40rem] text-left text-sm">
             <thead>
               <tr className="border-b border-piedra/15 bg-fondo/60">
                 <th className="px-4 py-3 font-medium text-piedra">Ítem</th>

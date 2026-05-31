@@ -36,8 +36,8 @@ export function AdminTable<T>({
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-piedra/15 bg-white">
-      <table className="w-full text-left text-sm">
+    <div className="overflow-x-auto rounded-2xl border border-piedra/15 bg-white">
+      <table className="w-full min-w-[36rem] text-left text-sm">
         <thead>
           <tr className="border-b border-piedra/15 bg-fondo/60">
             {columns.map((col) => (

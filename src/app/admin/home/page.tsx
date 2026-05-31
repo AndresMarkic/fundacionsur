@@ -33,8 +33,8 @@ export default async function HomeAdminPage() {
           No hay secciones en la portada todavía.
         </div>
       ) : (
-        <div className="overflow-hidden rounded-2xl border border-piedra/15 bg-white">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto rounded-2xl border border-piedra/15 bg-white">
+          <table className="w-full min-w-[40rem] text-left text-sm">
             <thead>
               <tr className="border-b border-piedra/15 bg-fondo/60">
                 <th className="w-12 px-4 py-3 font-medium text-piedra">#</th>
