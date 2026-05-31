@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma / sqlite (dev)
+dev.db
+dev.db-journal
+
+# env (explicito; ya cubierto por .env* mas arriba)
+.env
+.env*.local
+
+# uploads de usuarios (mantener carpeta, ignorar contenido)
+public/uploads/*
+!public/uploads/.gitkeep
