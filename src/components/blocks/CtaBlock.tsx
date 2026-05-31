@@ -1,15 +1,16 @@
-import { Button } from "@/components/ui/Button";
+import { SubscribeForm } from "@/components/site/SubscribeForm";
 import { str, type BlockProps } from "@/components/blocks/types";
 
 /**
- * Franja CTA de suscripción. El formulario propio se construye en M5; por
- * ahora el botón apunta al ancla #suscribite (o al href configurado).
+ * Franja CTA de suscripción. Aloja el formulario real de alta a la lista de
+ * novedades (ancla `#suscribite`): los CTAs que apuntan a `/#suscribite`
+ * aterrizan acá. `title`/`text` son el encabezado y `buttonLabel` el texto del
+ * botón del formulario.
  */
 export function CtaBlock({ data }: BlockProps) {
   const title = str(data, "title", "Sumate a Fundación Sur");
   const text = str(data, "text", "Suscribite y recibí nuestras novedades.");
   const buttonLabel = str(data, "buttonLabel", "Suscribite");
-  const href = str(data, "href", "/#suscribite").trim() || "/#suscribite";
 
   return (
     <section id="suscribite" className="px-5 py-16 sm:px-8 lg:py-20">
@@ -41,14 +42,8 @@ export function CtaBlock({ data }: BlockProps) {
               <p className="mt-4 text-lg leading-relaxed text-white/85">{text}</p>
             )}
           </div>
-          <div className="shrink-0">
-            <Button
-              href={href}
-              variant="solid"
-              className="!bg-white !text-glaciar hover:!bg-austral hover:!text-white"
-            >
-              {buttonLabel}
-            </Button>
+          <div className="w-full shrink-0 lg:w-auto">
+            <SubscribeForm buttonLabel={buttonLabel} />
           </div>
         </div>
       </div>
