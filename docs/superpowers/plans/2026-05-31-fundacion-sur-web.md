@@ -8,6 +8,8 @@
 
 **Tech Stack:** Next.js 15 · React 19 · TypeScript · Tailwind CSS v4 · Prisma + SQLite · Auth.js v5 (next-auth) · bcryptjs · Framer Motion · react-markdown · Vitest + Testing Library.
 
+> **Versiones REALES instaladas (M0, 2026-05-31):** Next.js **16.2.6** · React 19.2.4 · Tailwind v4 · Prisma **7.8.0** · next-auth 5.0.0-beta.31 · framer-motion 12 · react-markdown 10 · vitest 4. Los snippets del plan se escribieron pensando en Next 15 / Prisma 6; al implementar, **verificar las APIs específicas de Next 16 y Prisma 7 contra la doc oficial** (en especial: el generador del cliente Prisma 7 — puede requerir `provider = "prisma-client"` con `output` — y convenciones de `params`/route handlers en Next 16).
+
 **Spec de referencia:** `docs/superpowers/specs/2026-05-31-fundacion-sur-web-design.md`
 
 ---
