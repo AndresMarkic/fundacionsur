@@ -188,6 +188,7 @@ export function Navbar({ items }: NavbarProps) {
             alt="Fundación Sur"
             width={1960}
             height={960}
+            sizes="120px"
             priority
             className="h-11 w-auto object-contain object-left sm:h-12"
           />
@@ -265,6 +266,7 @@ export function Navbar({ items }: NavbarProps) {
               alt="Fundación Sur"
               width={1960}
               height={960}
+              sizes="120px"
               className="h-11 w-auto object-contain object-left"
             />
           </Link>

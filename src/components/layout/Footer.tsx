@@ -97,6 +97,7 @@ export function Footer() {
                 alt="Fundación Sur"
                 width={1960}
                 height={960}
+                sizes="120px"
                 className="h-14 w-auto object-contain object-left"
               />
             </Link>
