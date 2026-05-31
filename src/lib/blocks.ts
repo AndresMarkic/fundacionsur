@@ -85,7 +85,6 @@ export function defaultBlockData(type: string): Record<string, unknown> {
         title: "Sumate a Fundación Sur",
         text: "Suscribite y recibí nuestras novedades.",
         buttonLabel: "Suscribite",
-        href: "/#suscribite",
       };
     default:
       return {};

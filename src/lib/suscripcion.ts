@@ -19,14 +19,23 @@ export function isValidEmail(email: string | null | undefined): boolean {
 }
 
 /**
- * Escapa un campo CSV: si contiene `,`, `"` o salto de línea, duplica las
- * comillas internas y envuelve todo el campo en comillas dobles. PURA.
+ * Escapa un campo CSV. PURA.
+ *
+ * 1) Neutraliza inyección de fórmulas: si el valor empieza con un carácter que
+ *    Excel/Sheets interpretan como fórmula (`=`, `+`, `-`, `@`, TAB o CR),
+ *    antepone una comilla simple `'` para forzar que se trate como texto.
+ * 2) Si contiene `,`, `"` o salto de línea, duplica las comillas internas y
+ *    envuelve todo el campo en comillas dobles.
  */
 function escapeCsvField(field: string): string {
-  if (/[",\r\n]/.test(field)) {
-    return `"${field.replace(/"/g, '""')}"`;
+  let value = field;
+  if (/^[=+\-@\t\r]/.test(value)) {
+    value = `'${value}`;
   }
-  return field;
+  if (/[",\r\n]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
 }
 
 /**

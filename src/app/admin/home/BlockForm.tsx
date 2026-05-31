@@ -191,12 +191,6 @@ function Fields({ type, data }: { type: string; data: Data }) {
             label="Texto del botón"
             defaultValue={s(data, "buttonLabel")}
           />
-          <FormField
-            name="href"
-            label="Enlace del botón"
-            defaultValue={s(data, "href", "/#suscribite")}
-            hint="A dónde lleva el botón (p. ej. /#suscribite)."
-          />
         </>
       );
     default:

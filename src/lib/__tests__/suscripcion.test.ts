@@ -80,4 +80,25 @@ describe("toCsv", () => {
       "Nombre,Email,Fecha\r\nAna,ana@b.com,1 de enero de 2026\r\n,x@y.com,2 de enero de 2026",
     );
   });
+
+  it("neutraliza fórmulas anteponiendo una comilla simple", () => {
+    expect(toCsv([["=1+1"]])).toBe("'=1+1");
+    expect(toCsv([["+48"]])).toBe("'+48");
+    expect(toCsv([["-1"]])).toBe("'-1");
+    expect(toCsv([["@cmd"]])).toBe("'@cmd");
+    expect(toCsv([["\tx"]])).toBe("'\tx");
+    expect(toCsv([["\rx"]])).toBe('"\'\rx"');
+  });
+
+  it("no toca un valor normal", () => {
+    expect(toCsv([["Juan"]])).toBe("Juan");
+  });
+
+  it("sigue envolviendo en comillas un valor con coma", () => {
+    expect(toCsv([["Pérez, Juan"]])).toBe('"Pérez, Juan"');
+  });
+
+  it("prefija Y envuelve cuando empieza con fórmula y tiene coma", () => {
+    expect(toCsv([["=a,b"]])).toBe('"\'=a,b"');
+  });
 });

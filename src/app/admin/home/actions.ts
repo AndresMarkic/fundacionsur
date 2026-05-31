@@ -113,7 +113,6 @@ function buildBlockData(
         title: str(formData, "title"),
         text: str(formData, "text"),
         buttonLabel: str(formData, "buttonLabel"),
-        href: trimmed(formData, "href") || "/#suscribite",
       };
     default:
       return {};

@@ -70,12 +70,11 @@ describe("defaultBlockData", () => {
     });
   });
 
-  it("cta trae title/text/buttonLabel/href", () => {
+  it("cta trae title/text/buttonLabel", () => {
     expect(defaultBlockData("cta")).toEqual({
       title: "Sumate a Fundación Sur",
       text: "Suscribite y recibí nuestras novedades.",
       buttonLabel: "Suscribite",
-      href: "/#suscribite",
     });
   });
 
@@ -111,7 +110,7 @@ describe("defaultBlockData cubre las claves leídas por cada componente", () => 
     mision: ["title", "text", "image", "cta.label", "cta.href"],
     prensa: ["title", "limit"],
     contadores: ["title", "items"],
-    cta: ["title", "text", "buttonLabel", "href"],
+    cta: ["title", "text", "buttonLabel"],
   };
 
   const hasPath = (obj: Record<string, unknown>, path: string): boolean => {
