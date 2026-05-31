@@ -51,3 +51,5 @@ dev.db-journal
 # uploads de usuarios (mantener carpeta, ignorar contenido)
 public/uploads/*
 !public/uploads/.gitkeep
+
+/src/generated/prisma
