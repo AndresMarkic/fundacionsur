@@ -5,7 +5,7 @@
   --color-austral: #1a2b3c; /* primario  — header, footer, títulos */
   --color-glaciar: #2a7f8a; /* secundario — botones, acciones */
   --color-celeste: #4aabb8; /* acento     — hovers, subrayados, "Leer más →" */
-  --color-piedra: #8a9cad; /* neutro     — metadatos, fechas, bordes */
+  --color-piedra: #7c8c9c; /* neutro — metadatos, fechas, bordes (ratio >= 3.0 sobre blanco; el layout aplica ensureReadableOnLight) */
   --color-estepa: #c4956a; /* complementario — detalles cálidos */
   --color-fondo: #f2f4f6; /* gris claro de fondo */
 
