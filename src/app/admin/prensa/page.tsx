@@ -30,7 +30,7 @@ const columns: Column<Row>[] = [
         href={r.externalUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-celeste underline"
+        className="text-glaciar underline"
       >
         Ver
       </a>

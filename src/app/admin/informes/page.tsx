@@ -28,7 +28,7 @@ const columns: Column<Row>[] = [
         href={r.fileUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-celeste underline"
+        className="text-glaciar underline"
       >
         PDF
       </a>

@@ -4,7 +4,7 @@ import ReactMarkdown, { type Components } from "react-markdown";
  * Mapeo de elementos markdown a una tipografía editorial on-brand
  * (paleta austral/glaciar/celeste). No depende de @tailwindcss/typography:
  * cada elemento lleva sus clases, así el cuerpo de noticias y áreas comparte
- * el mismo ritmo y los enlaces el acento celeste con subrayado.
+ * el mismo ritmo y los enlaces el acento glaciar (con contraste AA) y subrayado.
  */
 const components: Components = {
   h1: ({ children }) => (
@@ -40,7 +40,7 @@ const components: Components = {
         {...(isExternal
           ? { target: "_blank", rel: "noopener noreferrer" }
           : {})}
-        className="font-medium text-celeste underline decoration-celeste/40 underline-offset-[3px] transition-colors hover:text-glaciar hover:decoration-glaciar"
+        className="font-medium text-glaciar underline decoration-glaciar/40 underline-offset-[3px] transition-colors hover:text-celeste hover:decoration-celeste"
       >
         {children}
       </a>

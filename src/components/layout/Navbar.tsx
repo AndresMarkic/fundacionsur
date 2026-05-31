@@ -103,7 +103,6 @@ function DesktopItem({ item }: { item: MenuItemView }) {
         type="button"
         className={`${linkClasses} cursor-default`}
         aria-haspopup="true"
-        aria-expanded="false"
       >
         <span className="relative">
           {item.label}

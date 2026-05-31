@@ -100,7 +100,7 @@ export function UploadField({
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block truncate text-sm text-celeste underline"
+                className="block truncate text-sm text-glaciar underline"
               >
                 {fileName}
               </a>
