@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { MenuItemView } from "@/lib/types";
+import { parseTheme, type Theme } from "@/lib/theme";
 
 // ---------------------------------------------------------------------------
 // Helpers puros (testeables sin BD)
@@ -223,6 +224,7 @@ export type SiteSettingsView = {
   social: Record<string, string>;
   footerText: string;
   counters: Array<{ label: string; value: number; suffix?: string }>;
+  theme: Theme;
 };
 
 const DEFAULT_SETTINGS: SiteSettingsView = {
@@ -232,6 +234,7 @@ const DEFAULT_SETTINGS: SiteSettingsView = {
   social: {},
   footerText: "",
   counters: [],
+  theme: parseTheme(null),
 };
 
 function safeParse<T>(raw: string | null | undefined, fallback: T): T {
@@ -258,6 +261,7 @@ export async function getSettings(): Promise<SiteSettingsView> {
     social: safeParse<Record<string, string>>(row.social, {}),
     footerText: row.footerText ?? "",
     counters: safeParse<SiteSettingsView["counters"]>(row.countersJson, []),
+    theme: parseTheme(row.themeJson),
   };
 }
 
