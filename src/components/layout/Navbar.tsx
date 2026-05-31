@@ -152,6 +152,7 @@ export function Navbar({ items }: NavbarProps) {
   // Bloqueo de scroll + foco + Esc en el overlay mobile.
   useEffect(() => {
     if (!open) return;
+    const trigger = menuButtonRef.current;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     closeButtonRef.current?.focus();
@@ -162,7 +163,8 @@ export function Navbar({ items }: NavbarProps) {
     return () => {
       document.body.style.overflow = prev;
       document.removeEventListener("keydown", onKey);
-      menuButtonRef.current?.focus();
+      // Devuelve el foco al botón hamburguesa al cerrar.
+      trigger?.focus();
     };
   }, [open]);
 
