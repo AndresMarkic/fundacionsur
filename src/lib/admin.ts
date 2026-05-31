@@ -76,3 +76,17 @@ export function isValidUrl(value: string | null | undefined): boolean {
   }
   return url.protocol === "http:" || url.protocol === "https:";
 }
+
+/**
+ * Normaliza un `href` para enlaces/botones: permite rutas internas (`/`),
+ * anclas (`#`) y URLs http(s)/mailto/tel. Cualquier otro esquema (p. ej.
+ * `javascript:`, `data:`) se descarta devolviendo "". PURA. Evita XSS por
+ * `href` malicioso persistido desde el admin.
+ */
+export function safeHref(value: string | null | undefined): string {
+  const v = (value ?? "").trim();
+  if (!v) return "";
+  if (v.startsWith("/") || v.startsWith("#")) return v;
+  if (/^https?:\/\//i.test(v) || /^mailto:/i.test(v) || /^tel:/i.test(v)) return v;
+  return "";
+}

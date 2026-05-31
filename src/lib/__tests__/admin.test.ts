@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   isUploadPath,
   isValidUrl,
+  safeHref,
   uniqueSlug,
   validateNoticiaInput,
 } from "@/lib/admin";
@@ -133,5 +134,33 @@ describe("isUploadPath", () => {
 
   it("rechaza paths sin slash inicial", () => {
     expect(isUploadPath("uploads/x")).toBe(false);
+  });
+});
+
+describe("safeHref", () => {
+  it("permite rutas internas y anclas", () => {
+    expect(safeHref("/quienes-somos")).toBe("/quienes-somos");
+    expect(safeHref("/#suscribite")).toBe("/#suscribite");
+    expect(safeHref("#seccion")).toBe("#seccion");
+  });
+
+  it("permite http(s), mailto y tel", () => {
+    expect(safeHref("https://ejemplo.com")).toBe("https://ejemplo.com");
+    expect(safeHref("http://ejemplo.com")).toBe("http://ejemplo.com");
+    expect(safeHref("mailto:hola@ejemplo.com")).toBe("mailto:hola@ejemplo.com");
+    expect(safeHref("tel:+542966000000")).toBe("tel:+542966000000");
+  });
+
+  it("descarta esquemas peligrosos y entradas vacías", () => {
+    expect(safeHref("javascript:alert(1)")).toBe("");
+    expect(safeHref("JavaScript:alert(1)")).toBe("");
+    expect(safeHref("data:text/html,<script>")).toBe("");
+    expect(safeHref("")).toBe("");
+    expect(safeHref(null)).toBe("");
+    expect(safeHref(undefined)).toBe("");
+  });
+
+  it("recorta espacios", () => {
+    expect(safeHref("  /areas  ")).toBe("/areas");
   });
 });

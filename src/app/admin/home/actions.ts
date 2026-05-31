@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { siblingSwap } from "@/lib/content";
 import { defaultBlockData, isBlockType } from "@/lib/blocks";
-import { isUploadPath } from "@/lib/admin";
+import { isUploadPath, safeHref } from "@/lib/admin";
 
 async function requireAuth() {
   const session = await auth();
@@ -61,12 +61,12 @@ function buildBlockData(
         primary: {
           visible: checkbox(formData, "primaryVisible"),
           label: str(formData, "primaryLabel"),
-          href: trimmed(formData, "primaryHref"),
+          href: safeHref(trimmed(formData, "primaryHref")),
         },
         secondary: {
           visible: checkbox(formData, "secondaryVisible"),
           label: str(formData, "secondaryLabel"),
-          href: trimmed(formData, "secondaryHref"),
+          href: safeHref(trimmed(formData, "secondaryHref")),
         },
       };
     case "noticias":
@@ -88,7 +88,7 @@ function buildBlockData(
       return {
         image: uploadPathOr(formData, "image"),
         imageMobile: uploadPathOr(formData, "imageMobile"),
-        link: trimmed(formData, "link"),
+        link: safeHref(trimmed(formData, "link")),
         alt: str(formData, "alt"),
         buttonLabel: str(formData, "buttonLabel"),
       };
@@ -99,7 +99,7 @@ function buildBlockData(
         image: uploadPathOr(formData, "image"),
         cta: {
           label: str(formData, "ctaLabel"),
-          href: trimmed(formData, "ctaHref"),
+          href: safeHref(trimmed(formData, "ctaHref")),
         },
       };
     case "prensa":
