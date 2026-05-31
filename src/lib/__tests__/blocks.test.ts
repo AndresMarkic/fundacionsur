@@ -21,12 +21,11 @@ describe("isBlockType / blockLabel", () => {
 });
 
 describe("defaultBlockData", () => {
-  it("hero trae image/title/subtitle/link", () => {
+  it("hero trae image/title/subtitle", () => {
     expect(defaultBlockData("hero")).toEqual({
       image: "",
       title: "Fundación Sur",
       subtitle: "Desde el sur, junto a las comunidades de Santa Cruz",
-      link: "/",
     });
   });
 
@@ -102,7 +101,7 @@ describe("defaultBlockData", () => {
 describe("defaultBlockData cubre las claves leídas por cada componente", () => {
   // Claves que cada componente lee de `data` (auditadas en los *Block.tsx).
   const READ_KEYS: Record<string, string[]> = {
-    hero: ["image", "link", "title", "subtitle"],
+    hero: ["image", "title", "subtitle"],
     noticias: ["limit", "title"],
     informes: ["title", "intro"],
     areas: ["title", "intro"],

@@ -56,7 +56,6 @@ export function defaultBlockData(type: string): Record<string, unknown> {
         image: "",
         title: "Fundación Sur",
         subtitle: "Desde el sur, junto a las comunidades de Santa Cruz",
-        link: "/",
       };
     case "noticias":
       return { title: "Últimas noticias", limit: 6 };

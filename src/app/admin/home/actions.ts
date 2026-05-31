@@ -52,7 +52,6 @@ function buildBlockData(
         image: uploadPathOr(formData, "image"),
         title: str(formData, "title"),
         subtitle: str(formData, "subtitle"),
-        link: trimmed(formData, "link") || "/",
       };
     case "noticias":
       return {

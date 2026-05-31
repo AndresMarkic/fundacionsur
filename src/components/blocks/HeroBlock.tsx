@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { str, type BlockProps } from "@/components/blocks/types";
 
@@ -34,12 +33,13 @@ function HorizonCurve() {
 }
 
 /**
- * Hero de portada. Con imagen: banda ancha clickeable (art direction simple).
- * Sin imagen: fallback de marca con cielo austral, estrellas y curva de horizonte.
+ * Hero de portada — composición única (eyebrow, título, subtítulo y dos CTAs).
+ * El fondo es la imagen cargada desde el admin (a pantalla completa, con velo
+ * oscuro para legibilidad) o, si no hay imagen, el degradado de marca con cielo
+ * austral. La curva de horizonte cierra la sección hacia el contenido siguiente.
  */
 export function HeroBlock({ data }: BlockProps) {
   const image = str(data, "image").trim();
-  const link = str(data, "link", "/").trim() || "/";
   const title = str(data, "title", "Fundación Sur");
   const subtitle = str(
     data,
@@ -47,45 +47,38 @@ export function HeroBlock({ data }: BlockProps) {
     "Desde el sur, junto a las comunidades de Santa Cruz",
   );
 
-  // --- Variante con imagen provista por el admin ---
-  if (image) {
-    return (
-      <section className="relative">
-        <Link href={link} className="group/hero relative block">
-          <div className="relative aspect-[21/9] w-full overflow-hidden bg-austral sm:aspect-[21/8]">
-            <Image
-              src={image}
-              alt={title}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover transition-transform duration-700 group-hover/hero:scale-[1.03]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-austral/85 via-austral/30 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 mx-auto max-w-7xl px-5 pb-12 sm:px-8 sm:pb-16">
-              <h1 className="max-w-3xl text-balance font-display text-4xl font-semibold leading-tight text-white sm:text-5xl lg:text-6xl">
-                {title}
-              </h1>
-              {subtitle && (
-                <p className="mt-4 max-w-2xl text-lg text-white/80">{subtitle}</p>
-              )}
-            </div>
-          </div>
-        </Link>
-      </section>
-    );
-  }
-
-  // --- Fallback de marca (sin imagen) ---
   return (
     <section className="relative overflow-hidden bg-austral text-white">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_-10%,rgba(74,171,184,0.22),transparent_55%),radial-gradient(90%_70%_at_0%_110%,rgba(42,127,138,0.18),transparent_60%)]"
-      />
+      {/* Fondo */}
+      {image ? (
+        <>
+          <Image
+            src={image}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          {/* Velos oscuros para que el texto se lea sobre cualquier imagen */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-r from-austral/95 via-austral/75 to-austral/35"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-austral/70 via-transparent to-austral/25"
+          />
+        </>
+      ) : (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_-10%,rgba(74,171,184,0.22),transparent_55%),radial-gradient(90%_70%_at_0%_110%,rgba(42,127,138,0.18),transparent_60%)]"
+        />
+      )}
       <SouthernCross />
 
-      <div className="relative mx-auto flex min-h-[clamp(34rem,72vh,46rem)] max-w-7xl flex-col justify-center px-5 py-24 sm:px-8">
+      <div className="relative z-10 mx-auto flex min-h-[clamp(34rem,72vh,46rem)] max-w-7xl flex-col justify-center px-5 py-24 sm:px-8">
         <p className="mb-6 inline-flex w-fit items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-celeste">
           <span className="h-px w-8 bg-celeste/60" />
           Patagonia austral · Santa Cruz
@@ -102,7 +95,7 @@ export function HeroBlock({ data }: BlockProps) {
           )}
         </h1>
 
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/70">
+        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/80">
           {subtitle}
         </p>
 

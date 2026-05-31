@@ -65,12 +65,10 @@ function Fields({ type, data }: { type: string; data: Data }) {
             rows={2}
             defaultValue={s(data, "subtitle")}
           />
-          <FormField
-            name="link"
-            label="Enlace del hero"
-            defaultValue={s(data, "link", "/")}
-            hint="A dónde lleva al hacer clic en la imagen."
-          />
+          <p className="text-sm text-piedra">
+            La imagen de portada se muestra de fondo, detrás del título y los
+            botones. Dejala vacía para usar el diseño de marca (cielo austral).
+          </p>
         </>
       );
     case "noticias":
