@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
+import { headers } from "next/headers";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -61,7 +62,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [menu, settings] = await Promise.all([getMenu(), getSettings()]);
+  // El panel admin (`/admin/*`) NO usa el chrome público (Navbar/Footer).
+  // El middleware expone la ruta en `x-pathname`; si está bajo /admin, el
+  // layout admin se encarga de su propia estructura.
+  const pathname = (await headers()).get("x-pathname") ?? "";
+  const isAdmin = pathname.startsWith("/admin");
 
   return (
     <html
@@ -69,18 +74,32 @@ export default async function RootLayout({
       className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <a
-          href="#contenido"
-          className="sr-only z-[100] rounded-full bg-austral px-5 py-2.5 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
-        >
-          Saltar al contenido
-        </a>
-        <Navbar items={menu} />
-        <main id="contenido" className="flex-1">
-          {children}
-        </main>
-        <Footer settings={settings} menu={menu} />
+        {isAdmin ? (
+          children
+        ) : (
+          <PublicChrome>{children}</PublicChrome>
+        )}
       </body>
     </html>
+  );
+}
+
+async function PublicChrome({ children }: { children: React.ReactNode }) {
+  const [menu, settings] = await Promise.all([getMenu(), getSettings()]);
+
+  return (
+    <>
+      <a
+        href="#contenido"
+        className="sr-only z-[100] rounded-full bg-austral px-5 py-2.5 text-sm font-medium text-white focus:not-sr-only focus:absolute focus:left-4 focus:top-4"
+      >
+        Saltar al contenido
+      </a>
+      <Navbar items={menu} />
+      <main id="contenido" className="flex-1">
+        {children}
+      </main>
+      <Footer settings={settings} menu={menu} />
+    </>
   );
 }
