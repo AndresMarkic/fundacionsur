@@ -3,7 +3,7 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { MAIN_MENU } from "@/lib/menu";
+import { getMenu, getSettings } from "@/lib/content";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,11 +51,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+// El header y el footer se renderizan a partir de la base (menú y ajustes
+// editables desde el admin), por eso forzamos render dinámico en toda la app.
+// La optimización a revalidación on-demand queda para una etapa posterior.
+export const dynamic = "force-dynamic";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [menu, settings] = await Promise.all([getMenu(), getSettings()]);
+
   return (
     <html
       lang="es"
@@ -68,11 +75,11 @@ export default function RootLayout({
         >
           Saltar al contenido
         </a>
-        <Navbar items={MAIN_MENU} />
+        <Navbar items={menu} />
         <main id="contenido" className="flex-1">
           {children}
         </main>
-        <Footer />
+        <Footer settings={settings} menu={menu} />
       </body>
     </html>
   );
