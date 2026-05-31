@@ -23,19 +23,21 @@ export function Counter({ value, label, suffix = "", duration = 1.8 }: CounterPr
   const inView = useInView(ref, { once: true, amount: 0.4 });
   const prefersReduced = useReducedMotion();
 
-  // Estado inicial: si se reduce el movimiento, ya mostramos el valor final.
-  const [display, setDisplay] = useState(prefersReduced ? value : 0);
+  // Valor animado (solo se usa cuando hay animación).
+  const [animated, setAnimated] = useState(0);
+
+  // Con movimiento reducido mostramos el valor final directamente (sin
+  // animar); en caso contrario, el valor animado por el efecto.
+  const display = prefersReduced ? value : animated;
 
   useEffect(() => {
-    if (!inView) return;
-    if (prefersReduced) {
-      setDisplay(value);
-      return;
-    }
+    // La animación solo corre cuando el contador entra en viewport y el
+    // usuario no pidió reducir el movimiento.
+    if (!inView || prefersReduced) return;
     const controls = animate(0, value, {
       duration,
       ease: [0.16, 1, 0.3, 1],
-      onUpdate: (latest) => setDisplay(Math.round(latest)),
+      onUpdate: (latest) => setAnimated(Math.round(latest)),
     });
     return () => controls.stop();
   }, [inView, prefersReduced, value, duration]);

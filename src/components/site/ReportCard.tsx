@@ -10,7 +10,7 @@ export type ReportData = {
 };
 
 /** Portada de marca cuando un informe no tiene imagen propia. */
-function BrandCover({ title }: { title: string }) {
+function BrandCover() {
   return (
     <div
       aria-hidden="true"
@@ -59,7 +59,7 @@ export function ReportCard({ report }: { report: ReportData }) {
             className="object-cover transition-transform duration-500 group-hover/report:scale-105"
           />
         ) : (
-          <BrandCover title={report.title} />
+          <BrandCover />
         )}
       </div>
 

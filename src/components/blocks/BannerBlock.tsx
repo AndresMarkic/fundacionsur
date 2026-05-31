@@ -21,7 +21,6 @@ export function BannerBlock({ data }: BlockProps) {
       <source media="(min-width: 768px)" srcSet={image} />
       {/* Imagen base (mobile). next/image no soporta art direction por
           breakpoint, por eso usamos <picture> con <img> nativo. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageMobile}
         alt={alt}
