@@ -60,14 +60,16 @@ export function HeroBlock({ data }: BlockProps) {
             sizes="100vw"
             className="object-cover"
           />
-          {/* Velos oscuros para que el texto se lea sobre cualquier imagen */}
+          {/* Velos oscuros para que el texto se lea sobre cualquier imagen.
+              Fuerte del lado izquierdo (donde va el texto) y suave a la derecha
+              para que la imagen siga visible. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-r from-austral/95 via-austral/75 to-austral/35"
+            className="absolute inset-0 bg-gradient-to-r from-austral via-austral/85 to-austral/25"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-austral/70 via-transparent to-austral/25"
+            className="absolute inset-0 bg-gradient-to-t from-austral/60 via-transparent to-transparent"
           />
         </>
       ) : (
