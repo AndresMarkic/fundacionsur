@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  isUploadPath,
   isValidUrl,
   uniqueSlug,
   validateNoticiaInput,
@@ -92,5 +93,45 @@ describe("isValidUrl", () => {
   it("rechaza cadenas que no son URL", () => {
     expect(isValidUrl("no soy una url")).toBe(false);
     expect(isValidUrl("example.com")).toBe(false);
+  });
+});
+
+describe("isUploadPath", () => {
+  it("acepta un path de upload local", () => {
+    expect(isUploadPath("/uploads/x.png")).toBe(true);
+  });
+
+  it("recorta espacios antes de validar", () => {
+    expect(isUploadPath("  /uploads/x.png  ")).toBe(true);
+  });
+
+  it("acepta vacío/null/undefined cuando no es required", () => {
+    expect(isUploadPath("")).toBe(true);
+    expect(isUploadPath("   ")).toBe(true);
+    expect(isUploadPath(null)).toBe(true);
+    expect(isUploadPath(undefined)).toBe(true);
+  });
+
+  it("rechaza vacío cuando es required", () => {
+    expect(isUploadPath("", { required: true })).toBe(false);
+    expect(isUploadPath(null, { required: true })).toBe(false);
+    expect(isUploadPath(undefined, { required: true })).toBe(false);
+  });
+
+  it("acepta un path de upload local cuando es required", () => {
+    expect(isUploadPath("/uploads/x.png", { required: true })).toBe(true);
+  });
+
+  it("rechaza URLs externas http(s)", () => {
+    expect(isUploadPath("http://evil/x")).toBe(false);
+    expect(isUploadPath("https://evil/x")).toBe(false);
+  });
+
+  it("rechaza intentos de path traversal", () => {
+    expect(isUploadPath("/uploads/../secret")).toBe(false);
+  });
+
+  it("rechaza paths sin slash inicial", () => {
+    expect(isUploadPath("uploads/x")).toBe(false);
   });
 });

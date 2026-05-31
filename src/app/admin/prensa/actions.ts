@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { isValidUrl, type FieldErrors } from "@/lib/admin";
+import { isUploadPath, isValidUrl, type FieldErrors } from "@/lib/admin";
 
 export type PrensaFormState = {
   errors?: FieldErrors;
@@ -40,6 +40,8 @@ function validate(data: ReturnType<typeof readForm>): FieldErrors | null {
   if (!data.externalUrl) errors.externalUrl = "La URL es obligatoria.";
   else if (!isValidUrl(data.externalUrl))
     errors.externalUrl = "Debe ser una URL http(s) válida.";
+  if (!isUploadPath(data.thumbnail))
+    errors.thumbnail = "Archivo inválido. Subí el archivo con el selector.";
   return Object.keys(errors).length ? errors : null;
 }
 

@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import type { FieldErrors } from "@/lib/admin";
+import { isUploadPath, type FieldErrors } from "@/lib/admin";
 
 export type AutoridadFormState = {
   errors?: FieldErrors;
@@ -31,6 +31,8 @@ function validate(data: ReturnType<typeof readForm>): FieldErrors | null {
   const errors: FieldErrors = {};
   if (!data.name) errors.name = "El nombre es obligatorio.";
   if (!data.role) errors.role = "El rol es obligatorio.";
+  if (!isUploadPath(data.photo))
+    errors.photo = "Archivo inválido. Subí el archivo con el selector.";
   return Object.keys(errors).length ? errors : null;
 }
 

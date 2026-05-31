@@ -52,6 +52,16 @@ export function validateNoticiaInput(data: {
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true };
 }
 
+/** true si la URL es un path de upload local válido (o vacío/opcional). */
+export function isUploadPath(
+  value: string | null | undefined,
+  { required = false } = {},
+): boolean {
+  const v = (value ?? "").trim();
+  if (!v) return !required;
+  return v.startsWith("/uploads/") && !v.includes("..");
+}
+
 /**
  * ¿`value` es una URL http(s) válida? PURA. Rechaza otros protocolos
  * (ftp, javascript, mailto), cadenas vacías y entradas no parseables.

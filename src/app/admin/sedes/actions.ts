@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import type { FieldErrors } from "@/lib/admin";
+import { isValidUrl, type FieldErrors } from "@/lib/admin";
 
 export type SedeFormState = {
   errors?: FieldErrors;
@@ -31,6 +31,8 @@ function readForm(formData: FormData) {
 function validate(data: ReturnType<typeof readForm>): FieldErrors | null {
   const errors: FieldErrors = {};
   if (!data.name) errors.name = "El nombre es obligatorio.";
+  if (data.mapUrl && !isValidUrl(data.mapUrl))
+    errors.mapUrl = "Debe ser una URL http(s) válida.";
   return Object.keys(errors).length ? errors : null;
 }
 

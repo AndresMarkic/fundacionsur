@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import type { FieldErrors } from "@/lib/admin";
+import { isUploadPath, type FieldErrors } from "@/lib/admin";
 
 export type InformeFormState = {
   errors?: FieldErrors;
@@ -37,6 +37,10 @@ function validate(data: ReturnType<typeof readForm>): FieldErrors | null {
   const errors: FieldErrors = {};
   if (!data.title) errors.title = "El título es obligatorio.";
   if (!data.fileUrl) errors.fileUrl = "El archivo PDF es obligatorio.";
+  else if (!isUploadPath(data.fileUrl, { required: true }))
+    errors.fileUrl = "Archivo inválido. Subí el archivo con el selector.";
+  if (!isUploadPath(data.coverImage))
+    errors.coverImage = "Archivo inválido. Subí el archivo con el selector.";
   return Object.keys(errors).length ? errors : null;
 }
 

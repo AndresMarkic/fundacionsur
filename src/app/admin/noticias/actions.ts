@@ -4,7 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { uniqueSlug, validateNoticiaInput, type FieldErrors } from "@/lib/admin";
+import {
+  isUploadPath,
+  uniqueSlug,
+  validateNoticiaInput,
+  type FieldErrors,
+} from "@/lib/admin";
 import { slugify } from "@/lib/slug";
 
 export type NoticiaFormState = {
@@ -70,6 +75,10 @@ export async function createNoticia(
 
   const validation = validateNoticiaInput(data);
   if (!validation.ok) return { errors: validation.errors };
+  if (!isUploadPath(data.coverImage))
+    return {
+      errors: { coverImage: "Archivo inválido. Subí el archivo con el selector." },
+    };
 
   const base = data.slug || slugify(data.title);
   const slug = await computeUniqueSlug(base);
@@ -102,6 +111,10 @@ export async function updateNoticia(
   const data = readForm(formData);
   const validation = validateNoticiaInput(data);
   if (!validation.ok) return { errors: validation.errors };
+  if (!isUploadPath(data.coverImage))
+    return {
+      errors: { coverImage: "Archivo inválido. Subí el archivo con el selector." },
+    };
 
   const base = data.slug || slugify(data.title);
   const slug = await computeUniqueSlug(base, id);
