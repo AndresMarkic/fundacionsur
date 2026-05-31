@@ -72,7 +72,13 @@ export function Button(props: ButtonProps) {
       );
     }
     return (
-      <a href={href} className={classes} {...anchorRest}>
+      <a
+        href={href}
+        className={classes}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...anchorRest}
+      >
         {content(variant, children)}
       </a>
     );

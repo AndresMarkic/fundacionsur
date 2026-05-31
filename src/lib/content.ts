@@ -74,7 +74,7 @@ export function parseBlock(block: HomeBlockRow): ParsedBlock {
   if (block.dataJson) {
     try {
       const parsed = JSON.parse(block.dataJson);
-      if (parsed && typeof parsed === "object") {
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
         data = parsed as Record<string, unknown>;
       }
     } catch {
