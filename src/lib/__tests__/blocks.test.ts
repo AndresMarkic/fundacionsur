@@ -21,11 +21,21 @@ describe("isBlockType / blockLabel", () => {
 });
 
 describe("defaultBlockData", () => {
-  it("hero trae image/title/subtitle", () => {
+  it("hero trae image/title/subtitle y los dos botones", () => {
     expect(defaultBlockData("hero")).toEqual({
       image: "",
-      title: "Fundación Sur",
+      title: "Desde el sur, junto a las comunidades del territorio.",
       subtitle: "Desde el sur, junto a las comunidades de Santa Cruz",
+      primary: {
+        visible: true,
+        label: "Conocé la Fundación",
+        href: "/quienes-somos",
+      },
+      secondary: {
+        visible: true,
+        label: "Sumate a nuestra comunidad",
+        href: "/#suscribite",
+      },
     });
   });
 
@@ -101,7 +111,17 @@ describe("defaultBlockData", () => {
 describe("defaultBlockData cubre las claves leídas por cada componente", () => {
   // Claves que cada componente lee de `data` (auditadas en los *Block.tsx).
   const READ_KEYS: Record<string, string[]> = {
-    hero: ["image", "title", "subtitle"],
+    hero: [
+      "image",
+      "title",
+      "subtitle",
+      "primary.visible",
+      "primary.label",
+      "primary.href",
+      "secondary.visible",
+      "secondary.label",
+      "secondary.href",
+    ],
     noticias: ["limit", "title"],
     informes: ["title", "intro"],
     areas: ["title", "intro"],

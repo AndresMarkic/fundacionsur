@@ -54,8 +54,18 @@ export function defaultBlockData(type: string): Record<string, unknown> {
     case "hero":
       return {
         image: "",
-        title: "Fundación Sur",
+        title: "Desde el sur, junto a las comunidades del territorio.",
         subtitle: "Desde el sur, junto a las comunidades de Santa Cruz",
+        primary: {
+          visible: true,
+          label: "Conocé la Fundación",
+          href: "/quienes-somos",
+        },
+        secondary: {
+          visible: true,
+          label: "Sumate a nuestra comunidad",
+          href: "/#suscribite",
+        },
       };
     case "noticias":
       return { title: "Últimas noticias", limit: 6 };

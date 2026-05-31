@@ -1,6 +1,27 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
-import { str, type BlockProps } from "@/components/blocks/types";
+import { str, type BlockData, type BlockProps } from "@/components/blocks/types";
+
+type HeroButton = { visible: boolean; label: string; href: string };
+
+/**
+ * Lee un botón anidado (`primary`/`secondary`) de `data` con fallback a los
+ * valores por defecto. `visible` es true salvo que esté explícitamente en
+ * `false`; así, datos viejos sin la clave siguen mostrando el botón.
+ */
+function heroButton(
+  data: BlockData,
+  key: "primary" | "secondary",
+  fallback: HeroButton,
+): HeroButton {
+  const raw = data[key];
+  const obj = raw && typeof raw === "object" ? (raw as BlockData) : {};
+  return {
+    visible: obj.visible !== false,
+    label: str(obj, "label", fallback.label),
+    href: str(obj, "href", fallback.href),
+  };
+}
 
 /** Estrellas dispersas — eco de la Cruz del Sur del isotipo. */
 function SouthernCross() {
@@ -40,12 +61,26 @@ function HorizonCurve() {
  */
 export function HeroBlock({ data }: BlockProps) {
   const image = str(data, "image").trim();
-  const title = str(data, "title", "Fundación Sur");
+  const title = str(
+    data,
+    "title",
+    "Desde el sur, junto a las comunidades del territorio.",
+  );
   const subtitle = str(
     data,
     "subtitle",
     "Desde el sur, junto a las comunidades de Santa Cruz",
   );
+  const primary = heroButton(data, "primary", {
+    visible: true,
+    label: "Conocé la Fundación",
+    href: "/quienes-somos",
+  });
+  const secondary = heroButton(data, "secondary", {
+    visible: true,
+    label: "Sumate a nuestra comunidad",
+    href: "/#suscribite",
+  });
 
   return (
     <section className="relative overflow-hidden bg-austral text-on-austral">
@@ -87,28 +122,28 @@ export function HeroBlock({ data }: BlockProps) {
         </p>
 
         <h1 className="max-w-4xl text-balance font-display text-5xl font-semibold leading-[1.04] sm:text-6xl lg:text-7xl">
-          {title === "Fundación Sur" ? (
-            <>
-              Desde el sur, junto a las comunidades del{" "}
-              <span className="text-celeste">territorio</span>.
-            </>
-          ) : (
-            title
-          )}
+          {title}
         </h1>
 
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-on-austral/80">
           {subtitle}
         </p>
 
-        <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
-          <Button href="/quienes-somos" variant="solid">
-            Conocé la Fundación
-          </Button>
-          <Button href="/#suscribite" variant="link">
-            Sumate a nuestra comunidad
-          </Button>
-        </div>
+        {(primary.visible && primary.label) ||
+        (secondary.visible && secondary.label) ? (
+          <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {primary.visible && primary.label ? (
+              <Button href={primary.href} variant="solid">
+                {primary.label}
+              </Button>
+            ) : null}
+            {secondary.visible && secondary.label ? (
+              <Button href={secondary.href} variant="link">
+                {secondary.label}
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
       </div>
 
       <HorizonCurve />

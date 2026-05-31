@@ -22,6 +22,12 @@ const str = (formData: FormData, k: string) =>
 
 const trimmed = (formData: FormData, k: string) => str(formData, k).trim();
 
+/** Checkbox: presente ("on"/"true") → true; ausente → false. */
+const checkbox = (formData: FormData, k: string) => {
+  const v = str(formData, k);
+  return v === "on" || v === "true";
+};
+
 const numOr = (formData: FormData, k: string, fallback: number) => {
   const n = Number.parseInt(str(formData, k), 10);
   return Number.isFinite(n) ? n : fallback;
@@ -52,6 +58,16 @@ function buildBlockData(
         image: uploadPathOr(formData, "image"),
         title: str(formData, "title"),
         subtitle: str(formData, "subtitle"),
+        primary: {
+          visible: checkbox(formData, "primaryVisible"),
+          label: str(formData, "primaryLabel"),
+          href: trimmed(formData, "primaryHref"),
+        },
+        secondary: {
+          visible: checkbox(formData, "secondaryVisible"),
+          label: str(formData, "secondaryLabel"),
+          href: trimmed(formData, "secondaryHref"),
+        },
       };
     case "noticias":
       return {

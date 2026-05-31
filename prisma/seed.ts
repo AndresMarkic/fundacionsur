@@ -57,9 +57,18 @@ const HOME_BLOCKS: Array<{ type: string; data: unknown }> = [
     type: "hero",
     data: {
       image: "",
-      link: "/",
-      title: "Fundación Sur",
+      title: "Desde el sur, junto a las comunidades del territorio.",
       subtitle: "Desde el sur, junto a las comunidades de Santa Cruz",
+      primary: {
+        visible: true,
+        label: "Conocé la Fundación",
+        href: "/quienes-somos",
+      },
+      secondary: {
+        visible: true,
+        label: "Sumate a nuestra comunidad",
+        href: "/#suscribite",
+      },
     },
   },
   { type: "noticias", data: { title: "Últimas noticias", limit: 6 } },

@@ -17,6 +17,10 @@ const n = (d: Data, k: string, fallback: number): number => {
   const v = d[k];
   return typeof v === "number" && Number.isFinite(v) ? v : fallback;
 };
+const obj = (d: Data, k: string): Data => {
+  const v = d[k];
+  return v && typeof v === "object" ? (v as Data) : {};
+};
 
 type CounterRow = { label: string; value: string; suffix: string };
 
@@ -48,7 +52,9 @@ export function BlockForm({
 
 function Fields({ type, data }: { type: string; data: Data }) {
   switch (type) {
-    case "hero":
+    case "hero": {
+      const primary = obj(data, "primary");
+      const secondary = obj(data, "secondary");
       return (
         <>
           <UploadField
@@ -69,8 +75,24 @@ function Fields({ type, data }: { type: string; data: Data }) {
             La imagen de portada se muestra de fondo, detrás del título y los
             botones. Dejala vacía para usar el diseño de marca (cielo austral).
           </p>
+
+          <HeroButtonFields
+            legend="Botón principal"
+            prefix="primary"
+            defaultVisible={primary.visible !== false}
+            defaultLabel={s(primary, "label", "Conocé la Fundación")}
+            defaultHref={s(primary, "href", "/quienes-somos")}
+          />
+          <HeroButtonFields
+            legend="Botón secundario"
+            prefix="secondary"
+            defaultVisible={secondary.visible !== false}
+            defaultLabel={s(secondary, "label", "Sumate a nuestra comunidad")}
+            defaultHref={s(secondary, "href", "/#suscribite")}
+          />
         </>
       );
+    }
     case "noticias":
     case "prensa":
       return (
@@ -202,6 +224,47 @@ function Fields({ type, data }: { type: string; data: Data }) {
 
 const inputClasses =
   "w-full rounded-lg border border-piedra/30 bg-white px-3 py-2.5 text-sm text-austral outline-none transition-colors focus:border-glaciar focus:ring-2 focus:ring-glaciar/20";
+
+/** Grupo de campos de un botón del hero: mostrar (checkbox), texto y enlace. */
+function HeroButtonFields({
+  legend,
+  prefix,
+  defaultVisible,
+  defaultLabel,
+  defaultHref,
+}: {
+  legend: string;
+  prefix: "primary" | "secondary";
+  defaultVisible: boolean;
+  defaultLabel: string;
+  defaultHref: string;
+}) {
+  return (
+    <fieldset className="space-y-4 rounded-xl border border-piedra/15 p-4">
+      <legend className="px-1 text-sm font-medium text-austral">{legend}</legend>
+      <label className="flex items-center gap-2 text-sm text-austral">
+        <input
+          type="checkbox"
+          name={`${prefix}Visible`}
+          defaultChecked={defaultVisible}
+          className="h-4 w-4 rounded border-piedra/40 text-glaciar focus:ring-glaciar/30"
+        />
+        Mostrar botón
+      </label>
+      <FormField
+        name={`${prefix}Label`}
+        label="Texto"
+        defaultValue={defaultLabel}
+      />
+      <FormField
+        name={`${prefix}Href`}
+        label="Enlace"
+        defaultValue={defaultHref}
+        hint="Ruta interna (p. ej. /quienes-somos) o URL completa."
+      />
+    </fieldset>
+  );
+}
 
 function ContadoresFields({ data }: { data: Data }) {
   const initial: CounterRow[] = Array.isArray(data.items)
