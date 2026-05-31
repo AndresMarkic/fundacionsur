@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
   buildMenuTree,
+  collectDescendantIds,
   matchNoticia,
   parseBlock,
+  siblingSwap,
   type MenuRow,
 } from "@/lib/content";
 
@@ -56,6 +58,100 @@ describe("buildMenuTree", () => {
     const tree = buildMenuTree(rows);
 
     expect(tree.map((i) => i.label)).toEqual(["Raíz"]);
+  });
+});
+
+describe("siblingSwap", () => {
+  type Row = Pick<MenuRow, "id" | "parentId" | "order">;
+  const roots: Row[] = [
+    { id: "a", parentId: null, order: 0 },
+    { id: "b", parentId: null, order: 1 },
+    { id: "c", parentId: null, order: 2 },
+  ];
+
+  it("intercambia order con el hermano anterior ('up')", () => {
+    expect(siblingSwap(roots, "b", "up")).toEqual([
+      { id: "b", order: 0 },
+      { id: "a", order: 1 },
+    ]);
+  });
+
+  it("intercambia order con el hermano siguiente ('down')", () => {
+    expect(siblingSwap(roots, "b", "down")).toEqual([
+      { id: "b", order: 2 },
+      { id: "c", order: 1 },
+    ]);
+  });
+
+  it("devuelve null en los bordes (primer 'up', último 'down')", () => {
+    expect(siblingSwap(roots, "a", "up")).toBeNull();
+    expect(siblingSwap(roots, "c", "down")).toBeNull();
+  });
+
+  it("devuelve null si el ítem no existe", () => {
+    expect(siblingSwap(roots, "z", "up")).toBeNull();
+  });
+
+  it("solo considera hermanos del mismo parentId", () => {
+    const mixed: Row[] = [
+      { id: "root", parentId: null, order: 0 },
+      { id: "h1", parentId: "root", order: 0 },
+      { id: "h2", parentId: "root", order: 1 },
+      { id: "otro", parentId: null, order: 1 },
+    ];
+    // h1 'down' intercambia con h2 (su hermano), no con un root.
+    expect(siblingSwap(mixed, "h1", "down")).toEqual([
+      { id: "h1", order: 1 },
+      { id: "h2", order: 0 },
+    ]);
+    // h2 'down' no tiene hermano siguiente.
+    expect(siblingSwap(mixed, "h2", "down")).toBeNull();
+  });
+
+  it("tolera order con huecos usando la posición ordenada", () => {
+    const gappy: Row[] = [
+      { id: "x", parentId: null, order: 5 },
+      { id: "y", parentId: null, order: 20 },
+    ];
+    expect(siblingSwap(gappy, "x", "down")).toEqual([
+      { id: "x", order: 20 },
+      { id: "y", order: 5 },
+    ]);
+  });
+});
+
+describe("collectDescendantIds", () => {
+  type Row = Pick<MenuRow, "id" | "parentId">;
+  const items: Row[] = [
+    { id: "a", parentId: null },
+    { id: "b", parentId: "a" },
+    { id: "c", parentId: "b" },
+    { id: "d", parentId: "a" },
+    { id: "e", parentId: null },
+  ];
+
+  it("recolecta hijos y nietos, sin incluirse a sí mismo", () => {
+    const ids = collectDescendantIds(items, "a");
+    expect([...ids].sort()).toEqual(["b", "c", "d"]);
+    expect(ids.has("a")).toBe(false);
+  });
+
+  it("devuelve set vacío para una hoja", () => {
+    expect(collectDescendantIds(items, "c").size).toBe(0);
+  });
+
+  it("devuelve set vacío para un id inexistente", () => {
+    expect(collectDescendantIds(items, "zzz").size).toBe(0);
+  });
+
+  it("no entra en bucle infinito ante un ciclo en datos", () => {
+    const cyclic: Row[] = [
+      { id: "p", parentId: "q" },
+      { id: "q", parentId: "p" },
+    ];
+    const ids = collectDescendantIds(cyclic, "p");
+    expect(ids.has("q")).toBe(true);
+    expect(ids.has("p")).toBe(true);
   });
 });
 

@@ -51,6 +51,73 @@ export function buildMenuTree(rows: MenuRow[]): MenuItemView[] {
   });
 }
 
+/**
+ * Calcula el intercambio de `order` entre un ítem y su hermano adyacente
+ * (mismo `parentId`) en la dirección `dir`. PURA, sin BD.
+ *
+ * - "up" intercambia con el hermano de `order` inmediatamente menor.
+ * - "down" intercambia con el de `order` inmediatamente mayor.
+ *
+ * Devuelve los dos pares `{ id, order }` a persistir, o `null` si el ítem no
+ * existe o ya está en el borde (no hay hermano en esa dirección). Se basa en la
+ * posición dentro de los hermanos ordenados (no en el valor crudo de `order`),
+ * así tolera `order` duplicados o con huecos.
+ */
+export function siblingSwap(
+  items: Pick<MenuRow, "id" | "parentId" | "order">[],
+  id: string,
+  dir: "up" | "down",
+): Array<{ id: string; order: number }> | null {
+  const target = items.find((i) => i.id === id);
+  if (!target) return null;
+
+  const siblings = items
+    .filter((i) => i.parentId === target.parentId)
+    .sort((a, b) => a.order - b.order || a.id.localeCompare(b.id));
+
+  const idx = siblings.findIndex((i) => i.id === id);
+  if (idx === -1) return null;
+
+  const swapIdx = dir === "up" ? idx - 1 : idx + 1;
+  if (swapIdx < 0 || swapIdx >= siblings.length) return null;
+
+  const a = siblings[idx];
+  const b = siblings[swapIdx];
+  return [
+    { id: a.id, order: b.order },
+    { id: b.id, order: a.order },
+  ];
+}
+
+/**
+ * Recolecta los ids de TODOS los descendientes de `id` (hijos, nietos, …),
+ * recorriendo `parentId`. PURA. No incluye al propio `id`. Útil para excluir un
+ * ítem y su subárbol del select de "padre" y así evitar ciclos.
+ */
+export function collectDescendantIds(
+  items: Pick<MenuRow, "id" | "parentId">[],
+  id: string,
+): Set<string> {
+  const childrenByParent = new Map<string, string[]>();
+  for (const i of items) {
+    if (i.parentId) {
+      const list = childrenByParent.get(i.parentId) ?? [];
+      list.push(i.id);
+      childrenByParent.set(i.parentId, list);
+    }
+  }
+
+  const result = new Set<string>();
+  const stack = [...(childrenByParent.get(id) ?? [])];
+  while (stack.length) {
+    const current = stack.pop()!;
+    if (result.has(current)) continue;
+    result.add(current);
+    stack.push(...(childrenByParent.get(current) ?? []));
+  }
+  return result;
+}
+
 /** Fila cruda de HomeBlock (subset necesario para parsear). */
 export type HomeBlockRow = {
   id: string;
