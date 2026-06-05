@@ -9,15 +9,15 @@ type NavItem = { label: string; href: string };
 // Navegación del panel. Las páginas de recursos las construyen M5-B/C; acá
 // dejamos los enlaces (con placeholders "Próximamente").
 const NAV: NavItem[] = [
-  { label: "Dashboard", href: "/admin" },
+   { label: "Dashboard", href: "/admin" },
+   { label: "Home", href: "/admin/home" },
+   { label: "Menú", href: "/admin/menu" },
   { label: "Noticias", href: "/admin/noticias" },
   { label: "Prensa", href: "/admin/prensa" },
   { label: "Informes", href: "/admin/informes" },
   { label: "Áreas", href: "/admin/areas" },
   { label: "Autoridades", href: "/admin/autoridades" },
   { label: "Sedes", href: "/admin/sedes" },
-  { label: "Home", href: "/admin/home" },
-  { label: "Menú", href: "/admin/menu" },
   { label: "Suscriptores", href: "/admin/suscriptores" },
   { label: "Apariencia", href: "/admin/apariencia" },
   { label: "Ajustes", href: "/admin/ajustes" },

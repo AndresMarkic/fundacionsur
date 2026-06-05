@@ -1,7 +1,10 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { AdminTable, type Column } from "@/components/admin/AdminTable";
+import { DeleteButton } from "@/components/admin/DeleteButton";
 import { formatDate } from "@/lib/format";
+import { deleteSuscriptor } from "./actions";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -63,6 +66,17 @@ export default async function SuscriptoresAdminPage() {
         rows={rows}
         rowKey={(r) => r.id}
         emptyMessage="Todavía no hay suscriptores."
+        actions={(r) => (
+          <>
+            <Link
+              href={`/admin/suscriptores/${r.id}`}
+              className="text-sm font-medium text-glaciar hover:text-celeste"
+            >
+              Editar
+            </Link>
+            <DeleteButton action={deleteSuscriptor.bind(null, r.id)} />
+          </>
+        )}
       />
     </div>
   );
