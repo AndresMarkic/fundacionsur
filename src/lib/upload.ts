@@ -90,8 +90,10 @@ export async function saveUpload(file: File): Promise<string> {
   const ext = safeExtension(file.type, file.name);
   const fileName = `${randomUUID()}.${ext}`;
 
-  // PROD: Vercel Blob. El SDK lee BLOB_READ_WRITE_TOKEN del entorno.
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  // PROD: Vercel Blob. En Vercel, `@vercel/blob` resuelve las credenciales del
+  // store conectado automáticamente (vía OIDC del proyecto), sin necesitar un
+  // token estático. Fuera de Vercel, se usa el token explícito si está seteado.
+  if (process.env.VERCEL || process.env.BLOB_READ_WRITE_TOKEN) {
     const blob = await put(fileName, file, {
       access: "public",
       contentType: file.type || undefined,
@@ -99,7 +101,7 @@ export async function saveUpload(file: File): Promise<string> {
     return blob.url;
   }
 
-  // DEV: filesystem local.
+  // DEV (PC local, sin Vercel ni token): filesystem local.
   await mkdir(UPLOAD_DIR, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
   await writeFile(path.join(UPLOAD_DIR, fileName), buffer);
