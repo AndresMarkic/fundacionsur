@@ -41,9 +41,11 @@ export async function POST(request: Request) {
   try {
     const url = await saveUpload(file);
     return NextResponse.json({ url }, { status: 201 });
-  } catch {
+  } catch (e) {
+    console.error("[upload] saveUpload falló:", e);
+    const detail = e instanceof Error ? e.message : "Error desconocido";
     return NextResponse.json(
-      { error: "No se pudo guardar el archivo." },
+      { error: `No se pudo guardar el archivo: ${detail}` },
       { status: 500 },
     );
   }
