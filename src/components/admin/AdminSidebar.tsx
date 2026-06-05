@@ -6,12 +6,11 @@ import { usePathname } from "next/navigation";
 
 type NavItem = { label: string; href: string };
 
-// Navegación del panel. Las páginas de recursos las construyen M5-B/C; acá
-// dejamos los enlaces (con placeholders "Próximamente").
+// Navegación del panel de administración.
 const NAV: NavItem[] = [
-   { label: "Dashboard", href: "/admin" },
-   { label: "Home", href: "/admin/home" },
-   { label: "Menú", href: "/admin/menu" },
+  { label: "Dashboard", href: "/admin" },
+  { label: "Home", href: "/admin/home" },
+  { label: "Menú", href: "/admin/menu" },
   { label: "Noticias", href: "/admin/noticias" },
   { label: "Prensa", href: "/admin/prensa" },
   { label: "Informes", href: "/admin/informes" },
