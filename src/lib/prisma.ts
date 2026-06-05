@@ -1,19 +1,24 @@
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
 
 /**
  * Cliente Prisma (singleton).
  *
  * Prisma 7 usa el generador `prisma-client` con el "query compiler", que NO
- * incluye motor embebido: requiere un driver adapter. Para SQLite usamos
- * `@prisma/adapter-better-sqlite3`. La URL viene de `DATABASE_URL`
- * (p. ej. "file:./dev.db", relativa al directorio de trabajo).
+ * incluye motor embebido: requiere un driver adapter. Para PostgreSQL usamos
+ * `@prisma/adapter-pg` (`PrismaPg`), que internamente abre un pool de `pg`.
+ * La cadena de conexión viene de `DATABASE_URL`.
+ *
+ * El pool de `pg` conecta de forma perezosa (en la primera query), así que
+ * construir el cliente en build/import NO abre una conexión: el `next build`
+ * puede completar sin una BD viva. Si `DATABASE_URL` falta, no explotamos en
+ * import; el error surgirá recién al ejecutar una query real.
  */
 const g = globalThis as unknown as { prisma?: PrismaClient };
 
 function createPrisma(): PrismaClient {
-  const url = process.env.DATABASE_URL ?? "file:./dev.db";
-  const adapter = new PrismaBetterSqlite3({ url });
+  const connectionString = process.env.DATABASE_URL ?? "";
+  const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter });
 }
 
