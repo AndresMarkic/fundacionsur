@@ -52,14 +52,37 @@ export function validateNoticiaInput(data: {
   return Object.keys(errors).length ? { ok: false, errors } : { ok: true };
 }
 
-/** true si la URL es un path de upload local válido (o vacío/opcional). */
+/**
+ * true si la URL es una imagen subida válida (o vacío/opcional).
+ *
+ * Acepta dos formas según el entorno de almacenamiento:
+ * - DEV: path local `/uploads/...` (sin `..` para evitar path traversal).
+ * - PROD: URL https hacia un blob de Vercel (`*.blob.vercel-storage.com`).
+ *
+ * Rechaza cualquier otro esquema/host (p. ej. `http://evil`, `javascript:`,
+ * `https://otro-dominio`) y los `..` en el path local.
+ */
 export function isUploadPath(
   value: string | null | undefined,
   { required = false } = {},
 ): boolean {
   const v = (value ?? "").trim();
   if (!v) return !required;
-  return v.startsWith("/uploads/") && !v.includes("..");
+
+  // Path de upload local.
+  if (v.startsWith("/uploads/")) return !v.includes("..");
+
+  // Blob de Vercel: solo https hacia el dominio de blob storage.
+  try {
+    const url = new URL(v);
+    if (url.protocol !== "https:") return false;
+    return (
+      url.hostname === "blob.vercel-storage.com" ||
+      url.hostname.endsWith(".blob.vercel-storage.com")
+    );
+  } catch {
+    return false;
+  }
 }
 
 /**

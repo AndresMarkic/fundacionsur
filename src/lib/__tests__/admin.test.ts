@@ -123,9 +123,46 @@ describe("isUploadPath", () => {
     expect(isUploadPath("/uploads/x.png", { required: true })).toBe(true);
   });
 
-  it("rechaza URLs externas http(s)", () => {
+  it("rechaza URLs externas http(s) de dominios no-blob", () => {
     expect(isUploadPath("http://evil/x")).toBe(false);
     expect(isUploadPath("https://evil/x")).toBe(false);
+    expect(isUploadPath("https://otro-dominio.com/x.png")).toBe(false);
+  });
+
+  it("acepta URLs https de Vercel Blob", () => {
+    expect(
+      isUploadPath("https://abc123.public.blob.vercel-storage.com/x.png"),
+    ).toBe(true);
+    expect(
+      isUploadPath("https://store.blob.vercel-storage.com/foto-uuid.jpg"),
+    ).toBe(true);
+    expect(isUploadPath("https://blob.vercel-storage.com/y.webp")).toBe(true);
+  });
+
+  it("acepta URLs de Vercel Blob cuando es required", () => {
+    expect(
+      isUploadPath("https://abc.public.blob.vercel-storage.com/x.png", {
+        required: true,
+      }),
+    ).toBe(true);
+  });
+
+  it("rechaza Vercel Blob sobre http (no https)", () => {
+    expect(
+      isUploadPath("http://abc.public.blob.vercel-storage.com/x.png"),
+    ).toBe(false);
+  });
+
+  it("rechaza hosts que falsifican el sufijo del dominio blob", () => {
+    expect(
+      isUploadPath("https://evilblob.vercel-storage.com.attacker.com/x"),
+    ).toBe(false);
+    expect(isUploadPath("https://notblob.vercel-storage.com/x")).toBe(false);
+  });
+
+  it("rechaza esquemas peligrosos", () => {
+    expect(isUploadPath("javascript:alert(1)")).toBe(false);
+    expect(isUploadPath("data:text/html,<script>")).toBe(false);
   });
 
   it("rechaza intentos de path traversal", () => {

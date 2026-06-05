@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { put } from "@vercel/blob";
 
 /** Tamaño máximo permitido: 8 MB. */
 export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
@@ -69,9 +70,16 @@ export function safeExtension(type: string, fileName?: string): string {
 export const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 /**
- * Valida y guarda un `File` en `public/uploads/` con un nombre único, y
- * devuelve la URL pública (`/uploads/<archivo>`). Lanza si la validación falla.
- * Solo Node (usa fs).
+ * Valida y guarda un `File` con un nombre único, y devuelve su URL pública.
+ * Lanza si la validación falla. Solo Node.
+ *
+ * Estrategia según entorno:
+ * - PROD (hay `BLOB_READ_WRITE_TOKEN`): sube a Vercel Blob con `put()` y
+ *   devuelve la URL `https://...blob.vercel-storage.com/...`. El token lo toma
+ *   `@vercel/blob` de `process.env.BLOB_READ_WRITE_TOKEN` automáticamente.
+ * - DEV (sin token): escribe en `public/uploads/` y devuelve `/uploads/<archivo>`.
+ *
+ * En ambos casos el nombre es único (UUID) para evitar colisiones.
  */
 export async function saveUpload(file: File): Promise<string> {
   const result = validateUpload({ type: file.type, size: file.size });
@@ -82,6 +90,16 @@ export async function saveUpload(file: File): Promise<string> {
   const ext = safeExtension(file.type, file.name);
   const fileName = `${randomUUID()}.${ext}`;
 
+  // PROD: Vercel Blob. El SDK lee BLOB_READ_WRITE_TOKEN del entorno.
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const blob = await put(fileName, file, {
+      access: "public",
+      contentType: file.type || undefined,
+    });
+    return blob.url;
+  }
+
+  // DEV: filesystem local.
   await mkdir(UPLOAD_DIR, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
   await writeFile(path.join(UPLOAD_DIR, fileName), buffer);
