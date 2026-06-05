@@ -13,6 +13,10 @@ import { validateAdmin } from "@/lib/auth";
  */
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  // En Vercel, Auth.js auto-detecta el host (var de entorno VERCEL) y confía en
+  // él. Lo dejamos explícito para ser robustos detrás del proxy de Vercel y en
+  // previews; en self-hosting equivaldría a AUTH_TRUST_HOST=true.
+  trustHost: true,
   session: { strategy: "jwt" },
   providers: [
     Credentials({

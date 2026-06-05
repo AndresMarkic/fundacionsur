@@ -1,10 +1,14 @@
 /**
- * Test de integración de las server actions de Noticias contra la BD real
- * (dev.db vía el cliente prisma del proyecto). Mockea `auth`, `next/cache` y
- * `next/navigation` para poder invocar las actions fuera del runtime de Next.
+ * Test de integración de las server actions de Noticias contra una BD real
+ * (PostgreSQL, vía el cliente prisma del proyecto). Mockea `auth`, `next/cache`
+ * y `next/navigation` para poder invocar las actions fuera del runtime de Next.
  *
  * Verifica: guard de sesión, validación, unicidad de slug (-2), create/update/
  * delete y las llamadas a revalidatePath. Limpia sus propios registros.
+ *
+ * RESILIENCIA SIN BD: la suite se SALTEA si no hay una Postgres alcanzable
+ * (DATABASE_URL no es postgres, o el ping `SELECT 1` falla). Así `npm test`
+ * queda verde en CI/local sin necesidad de levantar una base.
  */
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -41,6 +45,31 @@ import {
 
 const PREFIX = "vitest-noticia-";
 
+/**
+ * ¿Hay una Postgres alcanzable? Requiere que DATABASE_URL sea postgres y que un
+ * `SELECT 1` funcione. Si no, devolvemos false para saltear la suite (sin
+ * romper). Se evalúa una sola vez en carga del módulo (top-level await).
+ */
+async function postgresReachable(): Promise<boolean> {
+  const url = process.env.DATABASE_URL ?? "";
+  if (!/^postgres(ql)?:\/\//i.test(url)) return false;
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const HAS_DB = await postgresReachable();
+
+if (!HAS_DB) {
+  // Aviso visible al correr los tests sin BD, para que no parezca un olvido.
+  console.warn(
+    "[integration] Sin PostgreSQL alcanzable (DATABASE_URL): se saltean los tests de integración de Noticias.",
+  );
+}
+
 function fd(obj: Record<string, string>): FormData {
   const f = new FormData();
   for (const [k, v] of Object.entries(obj)) f.append(k, v);
@@ -63,13 +92,14 @@ beforeEach(() => {
 });
 
 afterAll(async () => {
+  if (!HAS_DB) return;
   await prisma.noticia.deleteMany({
     where: { title: { startsWith: PREFIX } },
   });
   await prisma.$disconnect();
 });
 
-describe("server actions de Noticias (integración)", () => {
+describe.skipIf(!HAS_DB)("server actions de Noticias (integración)", () => {
   it("rechaza create sin sesión", async () => {
     await expect(
       createNoticia({}, fd({ title: `${PREFIX}a`, body: "x" })),
