@@ -20,13 +20,14 @@ export function LoginForm({ action }: { action: Action }) {
           htmlFor="email"
           className="block text-sm font-medium text-austral"
         >
-          Email
+          Usuario
         </label>
         <input
           id="email"
           name="email"
-          type="email"
+          type="text"
           autoComplete="username"
+          placeholder="administrador"
           required
           autoFocus
           className="w-full rounded-lg border border-piedra/30 bg-white px-3 py-2.5 text-sm text-austral outline-none transition-colors focus:border-glaciar focus:ring-2 focus:ring-glaciar/20"

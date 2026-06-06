@@ -30,7 +30,7 @@ async function authenticate(
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      return "Credenciales inválidas. Verificá el email y la contraseña.";
+      return "Usuario o contraseña incorrectos.";
     }
     // `signIn` usa un redirect interno (NEXT_REDIRECT) en el caso de éxito:
     // hay que re-lanzarlo para que Next complete la navegación.
