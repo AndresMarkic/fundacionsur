@@ -53,6 +53,31 @@ export function validateNoticiaInput(data: {
 }
 
 /**
+ * Valida la entrada de un Usuario admin (alta/edición). Requiere `usuario` no
+ * vacío. Si `requirePassword` (default), exige `password` con al menos 6
+ * caracteres. PURA: no toca BD ni bcrypt; devuelve errores por campo para
+ * alimentar `useActionState` (no lanza).
+ */
+export function validateUsuarioInput(
+  data: { usuario?: string | null; password?: string | null },
+  { requirePassword = true } = {},
+): ValidationResult {
+  const errors: FieldErrors = {};
+  if (!data.usuario || !data.usuario.trim()) {
+    errors.usuario = "El usuario es obligatorio.";
+  }
+  if (requirePassword) {
+    const pwd = data.password ?? "";
+    if (!pwd) {
+      errors.password = "La contraseña es obligatoria.";
+    } else if (pwd.length < 6) {
+      errors.password = "La contraseña debe tener al menos 6 caracteres.";
+    }
+  }
+  return Object.keys(errors).length ? { ok: false, errors } : { ok: true };
+}
+
+/**
  * true si la URL es una imagen subida válida (o vacío/opcional).
  *
  * Acepta dos formas según el entorno de almacenamiento:

@@ -19,6 +19,7 @@ const NAV: NavItem[] = [
   { label: "Sedes", href: "/admin/sedes" },
   { label: "Suscriptores", href: "/admin/suscriptores" },
   { label: "Apariencia", href: "/admin/apariencia" },
+  { label: "Usuarios", href: "/admin/usuarios" },
   { label: "Ajustes", href: "/admin/ajustes" },
 ];
 

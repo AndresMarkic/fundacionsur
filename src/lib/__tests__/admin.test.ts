@@ -5,6 +5,7 @@ import {
   safeHref,
   uniqueSlug,
   validateNoticiaInput,
+  validateUsuarioInput,
 } from "@/lib/admin";
 
 describe("uniqueSlug", () => {
@@ -64,6 +65,65 @@ describe("validateNoticiaInput", () => {
     if (!r.ok) {
       expect(r.errors.title).toBeTruthy();
       expect(r.errors.body).toBeTruthy();
+    }
+  });
+});
+
+describe("validateUsuarioInput", () => {
+  it("acepta usuario y password válidos (≥ 6)", () => {
+    expect(
+      validateUsuarioInput({ usuario: "administrador", password: "secreto" }),
+    ).toEqual({ ok: true });
+  });
+
+  it("rechaza usuario vacío", () => {
+    const r = validateUsuarioInput({ usuario: "  ", password: "secreto" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.usuario).toBeTruthy();
+  });
+
+  it("rechaza password ausente cuando se requiere", () => {
+    const r = validateUsuarioInput({ usuario: "admin", password: "" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.password).toBeTruthy();
+  });
+
+  it("rechaza password de menos de 6 caracteres", () => {
+    const r = validateUsuarioInput({ usuario: "admin", password: "12345" });
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.password).toBeTruthy();
+  });
+
+  it("acepta password de exactamente 6 caracteres", () => {
+    expect(
+      validateUsuarioInput({ usuario: "admin", password: "123456" }),
+    ).toEqual({ ok: true });
+  });
+
+  it("no exige password cuando requirePassword es false", () => {
+    expect(
+      validateUsuarioInput(
+        { usuario: "admin", password: "" },
+        { requirePassword: false },
+      ),
+    ).toEqual({ ok: true });
+  });
+
+  it("igual exige usuario cuando requirePassword es false", () => {
+    const r = validateUsuarioInput(
+      { usuario: "", password: "" },
+      { requirePassword: false },
+    );
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.errors.usuario).toBeTruthy();
+  });
+
+  it("reporta ambos errores si faltan los dos", () => {
+    const r = validateUsuarioInput({ usuario: null, password: null });
+    expect(r.ok).toBe(false);
+    if (!r.ok) {
+      expect(r.errors.usuario).toBeTruthy();
+      expect(r.errors.password).toBeTruthy();
     }
   });
 });
