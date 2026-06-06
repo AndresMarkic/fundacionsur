@@ -25,7 +25,7 @@ describe("validateAdmin", () => {
   it("devuelve el admin (sin passwordHash) con credenciales correctas", async () => {
     const passwordHash = await bcrypt.hash("cambiar123", 10);
     const lookup = async (email: string) =>
-      email === "prensamasgestion@gmail.com"
+      email === "fundacionsur@gmail.com"
         ? {
             id: "admin1",
             email,
@@ -35,13 +35,13 @@ describe("validateAdmin", () => {
         : null;
 
     const result = await validateAdmin(
-      "prensamasgestion@gmail.com",
+      "fundacionsur@gmail.com",
       "cambiar123",
       lookup,
     );
     expect(result).toEqual({
       id: "admin1",
-      email: "prensamasgestion@gmail.com",
+      email: "fundacionsur@gmail.com",
       name: "Administración",
     });
     // No debe filtrar el hash hacia la sesión.
@@ -52,12 +52,12 @@ describe("validateAdmin", () => {
     const passwordHash = await bcrypt.hash("cambiar123", 10);
     const lookup = async () => ({
       id: "admin1",
-      email: "prensamasgestion@gmail.com",
+      email: "fundacionsur@gmail.com",
       name: null,
       passwordHash,
     });
     await expect(
-      validateAdmin("prensamasgestion@gmail.com", "incorrecta", lookup),
+      validateAdmin("fundacionsur@gmail.com", "incorrecta", lookup),
     ).resolves.toBeNull();
   });
 

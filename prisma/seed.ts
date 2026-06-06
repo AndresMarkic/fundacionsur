@@ -186,10 +186,10 @@ async function main() {
   }
   const passwordHash = await bcrypt.hash(seedPassword, 10);
   await prisma.adminUser.upsert({
-    where: { email: "prensamasgestion@gmail.com" },
+    where: { email: "fundacionsur@gmail.com" },
     update: { passwordHash, name: "Administración" },
     create: {
-      email: "prensamasgestion@gmail.com",
+      email: "fundacionsur@gmail.com",
       passwordHash,
       name: "Administración",
     },
@@ -252,7 +252,7 @@ async function main() {
     where: { id: "singleton" },
     update: {
       address: "Río Gallegos, Santa Cruz, Argentina",
-      email: "prensamasgestion@gmail.com",
+      email: "fundacionsur@gmail.com",
       phone: "",
       social: JSON.stringify(social),
       footerText: "Organización sin fines de lucro de la Patagonia austral.",
@@ -261,7 +261,7 @@ async function main() {
     create: {
       id: "singleton",
       address: "Río Gallegos, Santa Cruz, Argentina",
-      email: "prensamasgestion@gmail.com",
+      email: "fundacionsur@gmail.com",
       phone: "",
       social: JSON.stringify(social),
       footerText: "Organización sin fines de lucro de la Patagonia austral.",
