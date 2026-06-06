@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { AdminTable, type Column } from "@/components/admin/AdminTable";
@@ -48,16 +49,22 @@ export default async function UsuariosAdminPage() {
         rows={rows}
         rowKey={(r) => r.id}
         emptyMessage="No hay usuarios todavía."
-        actions={(r) =>
-          canDelete ? (
-            <DeleteButton
-              action={deleteUsuario.bind(null, r.id)}
-              confirmMessage="¿Eliminar este usuario? Perderá el acceso al panel."
-            />
-          ) : (
-            <span className="text-sm text-piedra">—</span>
-          )
-        }
+        actions={(r) => (
+          <>
+            <Link
+              href={`/admin/usuarios/${r.id}`}
+              className="text-sm font-medium text-glaciar hover:text-celeste"
+            >
+              Editar
+            </Link>
+            {canDelete ? (
+              <DeleteButton
+                action={deleteUsuario.bind(null, r.id)}
+                confirmMessage="¿Eliminar este usuario? Perderá el acceso al panel."
+              />
+            ) : null}
+          </>
+        )}
       />
     </div>
   );

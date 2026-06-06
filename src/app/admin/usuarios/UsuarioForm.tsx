@@ -17,9 +17,13 @@ const inputClasses =
 export function UsuarioForm({
   action,
   submitLabel = "Crear usuario",
+  initial,
+  passwordOptional = false,
 }: {
   action: Action;
   submitLabel?: string;
+  initial?: { usuario: string; nombre: string | null };
+  passwordOptional?: boolean;
 }) {
   const [state, formAction] = useActionState<UsuarioFormState, FormData>(
     action,
@@ -42,26 +46,29 @@ export function UsuarioForm({
         label="Usuario"
         required
         placeholder="administrador"
+        defaultValue={initial?.usuario}
         error={state.errors?.usuario}
         hint="Nombre de acceso al panel. Se guarda en minúsculas."
       />
-      <FormField name="nombre" label="Nombre" />
+      <FormField name="nombre" label="Nombre" defaultValue={initial?.nombre ?? ""} />
 
       {/* Campo de contraseña: FormField no tiene variante password, así que lo
-          renderizamos directo con el mismo estilo. */}
+          renderizamos directo con el mismo estilo. En edición es opcional. */}
       <div className="space-y-1.5">
         <label
           htmlFor="field-password"
           className="block text-sm font-medium text-austral"
         >
           Contraseña
-          <span className="ml-0.5 text-red-600">*</span>
+          {!passwordOptional ? (
+            <span className="ml-0.5 text-red-600">*</span>
+          ) : null}
         </label>
         <input
           id="field-password"
           name="password"
           type="password"
-          required
+          required={!passwordOptional}
           minLength={6}
           autoComplete="new-password"
           className={inputClasses}
@@ -71,7 +78,11 @@ export function UsuarioForm({
             {state.errors.password}
           </p>
         ) : (
-          <p className="text-xs text-piedra">Mínimo 6 caracteres.</p>
+          <p className="text-xs text-piedra">
+            {passwordOptional
+              ? "Dejala vacía para mantener la actual. Mínimo 6 caracteres si la cambiás."
+              : "Mínimo 6 caracteres."}
+          </p>
         )}
       </div>
 
