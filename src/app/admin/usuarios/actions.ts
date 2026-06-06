@@ -67,9 +67,15 @@ export async function createUsuario(
 export async function deleteUsuario(id: string): Promise<void> {
   await requireAuth();
 
-  const count = await prisma.adminUser.count();
-  if (count <= 1) return; // No borrar el último usuario.
+  // Atómico: contar y borrar dentro de una transacción y abortar si es el
+  // último usuario, para no dejar el panel sin acceso (lockout).
+  await prisma.$transaction(async (tx) => {
+    const count = await tx.adminUser.count();
+    if (count <= 1) {
+      throw new Error("No se puede borrar el último usuario del sistema.");
+    }
+    await tx.adminUser.delete({ where: { id } });
+  });
 
-  await prisma.adminUser.delete({ where: { id } });
   revalidatePath("/admin/usuarios");
 }
