@@ -11,8 +11,11 @@ export type AreaData = {
  * Tarjeta de área/programa. Marca con la inicial sobre un sello austral
  * (o el ícono si existe), título enlazado al detalle y descripción corta.
  */
+/** Áreas con página propia dedicada (en vez de la genérica /areas/[slug]). */
+const SPECIAL_AREA_HREFS: Record<string, string> = { prensa: "/prensa" };
+
 export function AreaCard({ area }: { area: AreaData }) {
-  const href = `/areas/${area.slug}`;
+  const href = SPECIAL_AREA_HREFS[area.slug] ?? `/areas/${area.slug}`;
   const initial = area.name.trim().charAt(0).toUpperCase();
   const hasIcon = !!area.icon?.trim();
 
