@@ -41,12 +41,12 @@ const VALORES: Array<{ name: string; description: string; mark: string }> = [
 export const metadata: Metadata = {
   title: "Quiénes somos",
   description:
-    "Conocé a Fundación Sur Santa Cruz: nuestra misión, nuestros valores, las autoridades de la fundación y nuestras sedes en la Patagonia austral.",
+    "Conocé a Fundación Sur Santa Cruz: las autoridades de la fundación, nuestra misión, nuestros valores y nuestras sedes en la Patagonia austral.",
   alternates: { canonical: "/quienes-somos" },
   openGraph: {
     title: "Quiénes somos · Fundación Sur",
     description:
-      "Misión, valores, autoridades y sedes de Fundación Sur Santa Cruz.",
+      "Autoridades, misión, valores y sedes de Fundación Sur Santa Cruz.",
     url: "/quienes-somos",
     type: "website",
   },
@@ -74,49 +74,9 @@ export default async function QuienesSomosPage() {
         intro="Una organización sin fines de lucro que trabaja desde el sur, junto a las comunidades de Santa Cruz."
       />
 
-      {/* --- Misión --- */}
-      <Section tone="light" id="mision">
-        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          <SectionHeading eyebrow="Nuestra esencia" title="Misión" />
-          <p className="font-display text-2xl leading-[1.5] text-austral/85 sm:text-[1.75rem]">
-            {mision}
-          </p>
-        </div>
-      </Section>
-
-      {/* --- Valores --- */}
-      <Section tone="fondo" id="valores">
-        <SectionHeading
-          eyebrow="Lo que nos guía"
-          title="Nuestros valores"
-          align="center"
-        />
-        <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {VALORES.map((v) => (
-            <li
-              key={v.name}
-              className="group/value relative flex h-full flex-col rounded-2xl border border-piedra/20 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-celeste/40 hover:shadow-[0_24px_50px_-30px_rgba(26,43,60,0.45)]"
-            >
-              <span
-                aria-hidden="true"
-                className="text-2xl text-celeste transition-colors duration-300 group-hover/value:text-glaciar"
-              >
-                {v.mark}
-              </span>
-              <h3 className="mt-4 font-display text-2xl leading-tight text-austral">
-                {v.name}
-              </h3>
-              <p className="mt-2 text-[0.95rem] leading-relaxed text-austral/65">
-                {v.description}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
       {/* --- Autoridades --- */}
       {autoridades.length > 0 && (
-        <Section tone="light" id="autoridades">
+        <Section tone="fondo" id="autoridades">
           <SectionHeading eyebrow="Equipo" title="Autoridades" />
           <ul className="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
             {autoridades.map((a) => {
@@ -165,6 +125,46 @@ export default async function QuienesSomosPage() {
           </ul>
         </Section>
       )}
+
+      {/* --- Misión --- */}
+      <Section tone="light" id="mision">
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          <SectionHeading eyebrow="Nuestra esencia" title="Misión" />
+          <p className="font-display text-2xl leading-[1.5] text-austral/85 sm:text-[1.75rem]">
+            {mision}
+          </p>
+        </div>
+      </Section>
+
+      {/* --- Valores --- */}
+      <Section tone="fondo" id="valores">
+        <SectionHeading
+          eyebrow="Lo que nos guía"
+          title="Nuestros valores"
+          align="center"
+        />
+        <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {VALORES.map((v) => (
+            <li
+              key={v.name}
+              className="group/value relative flex h-full flex-col rounded-2xl border border-piedra/20 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:border-celeste/40 hover:shadow-[0_24px_50px_-30px_rgba(26,43,60,0.45)]"
+            >
+              <span
+                aria-hidden="true"
+                className="text-2xl text-celeste transition-colors duration-300 group-hover/value:text-glaciar"
+              >
+                {v.mark}
+              </span>
+              <h3 className="mt-4 font-display text-2xl leading-tight text-austral">
+                {v.name}
+              </h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-austral/65">
+                {v.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
       {/* --- Sedes --- */}
       {sedes.length > 0 && (
