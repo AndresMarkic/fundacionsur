@@ -80,7 +80,7 @@ export function defaultBlockData(type: string): Record<string, unknown> {
         title: "Quiénes somos",
         text: "",
         image: "",
-        cta: { label: "Conocé más", href: "/quienes-somos" },
+        cta: { label: "Conocé más sobre nosotros", href: "/quienes-somos" },
       };
     case "prensa":
       return { title: "En los medios", limit: 4 };
